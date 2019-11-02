@@ -11,7 +11,7 @@
 
 ## 构建镜像
 ```
-docker build -t ccr.ccs.tencentyun.com/centos:7.6.1810 .
+docker build -t ccr.ccs.tencentyun.com/wb4646684/centos:7.6.1810 .
 ```
 
 
