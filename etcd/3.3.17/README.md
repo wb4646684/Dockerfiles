@@ -7,7 +7,7 @@
 ```
 1.直接启动即为单节点etcd，如需启动集群版本可重新挂载/entrypoint.sh文件
 2.应用目录/usr/local/etcd/
-2.数据目录/data/etcd/
+3.数据目录/data/etcd/
 ```
 
 ## 构建镜像
