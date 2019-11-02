@@ -1,0 +1,87 @@
+<atlassian-plugin key="com.atlassian.jira.user.anonymize" name="User anonymization in Jira Core">
+    <plugin-info>
+        <description key="admin.customfield.plugin.desc">User anonymization in Jira Core</description>
+        <version>1.0</version>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="8.4"/>
+    </plugin-info>
+
+    <ownership-transfer-handler
+            key="project-lead-ownership-transfer-handler"
+            class="com.atlassian.jira.user.anonymize.handlers.ownership.ProjectLeadOwnershipTransferHandler"
+            name="Project lead ownership transfer handler"
+            i18n-name-key="ownership.transfer.handler.project.lead">
+        <order>10</order>
+    </ownership-transfer-handler>
+
+    <ownership-transfer-handler
+            key="component-lead-ownership-transfer-handler"
+            class="com.atlassian.jira.user.anonymize.handlers.ownership.ComponentLeadOwnershipTransferHandler"
+            name="Component lead ownership transfer handler"
+            i18n-name-key="ownership.transfer.handler.component.lead">
+        <order>20</order>
+    </ownership-transfer-handler>
+
+    <ownership-transfer-handler
+            key="filter-subscription-ownership-transfer-handler"
+            class="com.atlassian.jira.user.anonymize.handlers.ownership.FilterSubscriptionOwnershipTransferHandler"
+            name="Filter subscription ownership transfer handler"
+            i18n-name-key="ownership.transfer.handler.filter.subscription">
+        <order>30</order>
+    </ownership-transfer-handler>
+
+    <user-anonymization-handler
+            key="user-profile-anonymization-handler"
+            class="com.atlassian.jira.user.anonymize.handlers.anonymize.UserProfileAnonymizationHandler">
+        <order>10</order>
+    </user-anonymization-handler>
+
+    <user-anonymization-handler
+            key="project-role-anonymization-handler"
+            class="com.atlassian.jira.user.anonymize.handlers.anonymize.ProjectRoleAnonymizationHandler">
+        <order>20</order>
+    </user-anonymization-handler>
+
+    <user-anonymization-handler
+            key="filter-subscription-anonymization-handler"
+            class="com.atlassian.jira.user.anonymize.handlers.anonymize.FilterSubscriptionAnonymizationHandler">
+        <order>30</order>
+    </user-anonymization-handler>
+
+    <user-anonymization-handler
+            key="notification-scheme-anonymization-handler"
+            class="com.atlassian.jira.user.anonymize.handlers.anonymize.NotificationSchemeAnonymizationHandler">
+        <order>40</order>
+    </user-anonymization-handler>
+
+    <user-anonymization-handler
+            key="permission-anonymization-handler"
+            class="com.atlassian.jira.user.anonymize.handlers.anonymize.PermissionAnonymizationHandler">
+        <order>50</order>
+    </user-anonymization-handler>
+
+    <user-key-change-handler
+            key="user-key-in-workflow-change-handler"
+            class="com.atlassian.jira.user.anonymize.handlers.key.UserKeyInWorkflowChangeHandler"
+            name="Jira workflows user key change handler"
+            i18n-name-key="user.key.change.handler.workflow">
+        <order>10</order>
+    </user-key-change-handler>
+
+    <user-key-change-handler
+            key="user-key-in-workflow-draft-change-handler"
+            class="com.atlassian.jira.user.anonymize.handlers.key.UserKeyInDraftWorkflowChangeHandler"
+            name="Jira draft workflows user key change handler"
+            i18n-name-key="user.key.change.handler.workflow.draft">
+        <order>20</order>
+    </user-key-change-handler>
+
+    <user-key-change-handler
+            key="foreign-keys-change-handler"
+            class="com.atlassian.jira.user.anonymize.handlers.key.ForeignKeyChangeHandler"
+            name="Foreign keys change handler"
+            i18n-name-key="foreign.keys.change.handler">
+        <order>30</order>
+    </user-key-change-handler>
+
+</atlassian-plugin>

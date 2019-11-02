@@ -1,0 +1,18 @@
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <style>
+    .st1,.st2,.st3,.st4{fill-rule:evenodd;clip-rule:evenodd;fill:#fff}.st2,.st3,.st4{fill:#deb28a}.st3,.st4{fill:#edc199}.st4{fill:#42526e}
+  </style>
+  <g id="color_x5F_bg">
+    <path id="Path" d="M60 120c33 0 60-27 60-60S93 0 60 0 0 27 0 60s27 60 60 60z" fill-rule="evenodd" clip-rule="evenodd" fill="#ff5630"/>
+  </g>
+  <path class="st1" d="M75 67h21.5V46.5C96.5 40 91.5 35 85 35H75v32z"/>
+  <circle id="Oval" class="st2" cx="90.5" cy="65.5" r="7.5"/>
+  <circle class="st2" cx="31.5" cy="65.5" r="7.5"/>
+  <path class="st3" d="M60.5 101c16 0 29.5-13 29.5-29.5V58c0-6.5-5-11.5-11.5-11.5H31V71c.5 17 13.5 30 29.5 30z"/>
+  <circle class="st4" cx="72.5" cy="61" r="3.5"/>
+  <circle class="st4" cx="50" cy="61" r="3.5"/>
+  <path class="st4" d="M60.5 94C54 94 48 88.5 48 81.5h24.5c.5 7-5 12.5-12 12.5z"/>
+  <path class="st1" d="M44 83.5h32.5C76.5 78 72 73 66 73H54c-5 0-10 5-10 10.5z"/>
+  <circle class="st3" cx="60.5" cy="73" r="5.5"/>
+  <path class="st1" d="M31.5 47h54c0-12.5-10-23-23-23H24v15.5c.5 4.5 2.5 7.5 7.5 7.5z"/>
+</svg>

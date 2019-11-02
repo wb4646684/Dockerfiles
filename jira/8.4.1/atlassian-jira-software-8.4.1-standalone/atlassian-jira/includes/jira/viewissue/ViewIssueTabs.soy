@@ -1,0 +1,25 @@
+{namespace JIRA.Templates.Issue.Tabs}
+
+
+/**
+ * Used for the current tab
+ *
+ * @param text
+ */
+{template .label}
+    <a tabindex="0">{$text}</a>
+{/template}
+
+/**
+ * Used for the tabs that can be navigated to
+ *
+ * @param id
+ * @param href
+ * @param linkClass
+ * @param text
+ */
+{template .tab}
+    <a id="{$id}" href="{$href}" class="{$linkClass}">
+        {$text}
+    </a>
+{/template}

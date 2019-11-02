@@ -1,0 +1,1 @@
+define("jira/project/browse/archived-projects-empty-view",["jira/marionette-4.1","jira/util/data/meta"],function(e,t){"use strict";return e.View.extend({template:JIRA.Templates.Project.Browse.archivedProjectsEmptyState,templateContext:function(){return{adminMode:t.get("in-admin-mode")}},onRender:function(){this.unwrapTemplate()}})});

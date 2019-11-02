@@ -1,0 +1,49 @@
+@import "../../imports/mixins/grid";
+@import "../../imports/aui-colours";
+
+//pagination
+.count-pagination {
+    clear: both;
+    padding: @grid 0;
+    table-layout: auto;
+
+    .pagination {
+        @pagination-gap: 0.1em;
+        font-size: 0; // Creative technique to reduce the size of whitespace in-between elements of the pagination list.
+        text-align: right;
+        white-space: nowrap;
+
+        > a,
+        > strong,
+        > span {
+            font-size: 14px; // Reset the font-size.
+            line-height: 1;
+            height: auto;
+            margin: 0 0 0 (1.5*@pagination-gap);
+            padding: @pagination-gap;
+            position: relative;
+            vertical-align: bottom;
+        }
+    }
+
+    .aui-icon-small::before {
+        margin-top: -7px;
+        color: @aui-color-N500;
+    }
+}
+
+.msie {
+    .count-pagination {
+        .aui-icon-small::before {
+            margin-top: -6px;
+            color: @aui-color-N500;
+        }
+    }
+}
+
+//results count
+.results-count-start,
+.results-count-end,
+.results-count-total {
+    font-weight: bold;
+}

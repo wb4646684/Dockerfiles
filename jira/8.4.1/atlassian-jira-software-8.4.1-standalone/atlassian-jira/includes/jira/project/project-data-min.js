@@ -1,0 +1,1 @@
+define("jira/project/projectdata",["wrm/data"],function(t){"use strict";var r=t.claim("jira.core:jira-project-data-data.data");return{getProjectType:function(){return r.projectType}}});

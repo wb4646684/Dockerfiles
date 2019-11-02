@@ -1,0 +1,168 @@
+{namespace JIRA.Templates.Admin.PrioritySchemes}
+/**
+ * Configure priority scheme page
+ * @param title
+ * @param? operation
+ * @param? projectsForScheme list of projects using the scheme
+ * @param? name
+ * @param? description
+ * @param? allPriorities All priorities. This is used to populate default priority <select> with all possible options upfront
+ * @param? availablePriorities Priorities available to be added to the scheme
+ * @param? selectedPriorities Priorities already present in scheme. Empty when adding new scheme
+ * @param? defaultPriority default priority of the scheme
+ * @param? maxHeight Height of columns
+ * @param? schemeId id of the scheme. null when adding new scheme
+ * @param xsrfToken
+ * @param? fieldErrors
+ * @param? globalErrors
+ */
+{template .configurePrioritySchemePage}
+    {call aui.page.document}
+        {param windowTitle: getText('common.concepts.priorityscheme') /}
+        {param headContent}
+            <meta name="admin.active.section" content="admin_issues_menu/priorities_section"/>
+            <meta name="admin.active.tab" content="priority_schemes"/>
+        {/param}
+        {param content}
+            {call JIRA.Templates.Headers.pageHeader}
+                {param mainContent}
+                    <h2>
+                        {if $operation == 'EditPriorityScheme'}
+                            {getText('admin.issuesettings.priorities.edit.priorityscheme')}
+                        {else}
+                            {getText('admin.schemes.priority.add.priority.scheme')}
+                        {/if}
+                    </h2>
+                {/param}
+            {/call}
+            {if $projectsForScheme}
+                {call JIRA.Templates.ProjectAdmin.UsedBy.usedBy}
+                    {param projects: $projectsForScheme/}
+                    {param title: getText('admin.common.project.used.list.heading.scheme', length($projectsForScheme))/}
+                {/call}
+            {/if}
+
+            {call aui.form.form}
+                {param method: 'post' /}
+                {param id: 'configure-priority-scheme-form'/}
+                {param action: $operation + '.jspa'/}
+                {param content}
+                    {call JIRA.Templates.GlobalMessages.globalMessages data="all" /}
+                    <input type="hidden" name="atl_token" value="{$xsrfToken}"/>
+                    {if $schemeId}
+                        <input type="hidden" name="schemeId" value="{$schemeId}"/>
+                    {/if}
+                    {call aui.form.textField}
+                        {param labelContent: getText('admin.issuesettings.scheme.name')/}
+                        {param id: 'priority-scheme-name'/}
+                        {param name: 'name'/}
+                        {param value: $name/}
+                        {param isRequired: true/}
+                        {param errorTexts: $fieldErrors['name'] ? [$fieldErrors['name']]: null /}
+                    {/call}
+                    {call aui.form.textField}
+                        {param labelContent: getText('common.words.description')/}
+                        {param id: 'priority-scheme-description'/}
+                        {param name: 'description'/}
+                        {param value: $description/}
+                        {param size: 'long'/}
+                    {/call}
+
+                    <div>
+                        <h4 id="select-priorities">
+                            <span>{getText('common.words.select')}</span>
+                            <span class="lowercase"> {$title}</span>
+                        </h4>
+                        <p>
+                            <span class="break-line">{getText('admin.issuesettings.priorities.change.order.by.drag.drop')}</span>
+                            <span>{getText('admin.issuesettings.priorities.similarly.drag.drop.to.remove')}</span>
+                        </p>
+                    </div>
+
+                    <div id="prioritiesContainer" class="ab-drag-wrap">
+                        {call .renderPrioritiesContainer}
+                            {param title: getText('admin.common.words.selected') +' '+ $title/}
+                            {param actionLinkId: 'removeAllSelectedPriorities'/}
+                            {param actionLinkText: getText('admin.issuesettings.remove.all')/}
+                            {param listId: 'selectedPriorities'/}
+                            {param priorities: $selectedPriorities/}
+                            {param minHeight: $maxHeight/}
+                        {/call}
+                        {call .renderPrioritiesContainer}
+                            {param title: getText('admin.issuesettings.available.issue.types', $title)/}
+                            {param actionLinkId: 'addAllAvailablePriorities'/}
+                            {param actionLinkText: getText('admin.issuesettings.add.all')/}
+                            {param listId: 'availablePriorities'/}
+                            {param priorities: $availablePriorities/}
+                            {param minHeight: $maxHeight/}
+                        {/call}
+                    </div>
+                    {call aui.form.selectField}
+                        {param labelContent: getText('admin.issuesettings.priorities.add.priorityscheme.default')/}
+                        {param id: 'default-priority-select'/}
+                        {param name: 'defaultPriority'/}
+                        {param value: $defaultPriority? $defaultPriority: '' /}
+                        {param options: $allPriorities/}
+                        {param errorTexts: $fieldErrors['defaultPriority'] ? [$fieldErrors['defaultPriority']]: null /}
+                    {/call}
+                    {call aui.form.buttons}
+                        {param content}
+                            {call aui.form.submit}
+                                {param name: 'save'/}
+                                {param id: 'submitSave'/}
+                                {param type: 'primary'/}
+                                {param text: $operation == 'EditPriorityScheme'? getText('common.words.update') : getText('common.words.add')/}
+                            {/call}
+                            {call aui.form.linkButton}
+                                {param href: 'ViewPrioritySchemes.jspa'/}
+                                {param text: getText('common.words.cancel')/}
+                            {/call}
+                        {/param}
+                    {/call}
+
+                {/param}
+            {/call}
+        {/param}
+    {/call}
+
+{/template}
+
+
+
+/**
+ * Render priorities container
+ *
+ * @param title
+ * @param actionLinkId
+ * @param actionLinkText
+ */
+{template .renderPrioritiesContainer private="true"}
+    <div class="ab-drag-container">
+        <p class="sentence-case lowercase">{$title|noAutoescape}</p>
+        <div class="ab-items">
+            <a class="ab-all" href="#" id="{$actionLinkId}">{$actionLinkText}</a>
+            {call .renderPrioritiesList data="all" /}
+        </div>
+    </div>
+{/template}
+
+/**
+ * Render list of priorities
+ *
+ * @param listId
+ * @param? priorities
+ * @param minHeight
+ */
+{template .renderPrioritiesList private="true"}
+    <ul id="{$listId}" class="grabable" style="min-height:{$minHeight+ 'px'}">
+        {if $priorities}
+            {foreach $priority in $priorities}
+                <li id="{$listId + '_' + $priority.id}">
+                    <span class="icon icon-vgrabber"></span>
+                    <img class="icon jira-icon-image" src="{contextPath() + $priority.iconUrl}" alt=""/>
+                    <span class="priority-name">{$priority.name}</span>
+                </li>
+            {/foreach}
+        {/if}
+    </ul>
+{/template}

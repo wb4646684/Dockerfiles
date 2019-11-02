@@ -1,0 +1,6 @@
+#disable_html_escaping()
+#if ($value)
+    #foreach ($singleValue in $value)
+<customfieldvalue id="$!singleValue.id">#xmlEscape($!singleValue.name)</customfieldvalue>
+    #end
+#end

@@ -1,0 +1,45 @@
+@import "../imports/jira-colours";
+
+h1,
+h2,
+h3,
+h4 {
+    color: @jira-color-headings;
+}
+
+body {
+    color: @jira-color-text;
+}
+
+a {
+    color: @jira-color-link;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: @jira-color-active-link;
+    }
+}
+
+// JIRA Dropdowns
+.aui-list {
+    a:hover,
+    a:focus {
+        color: inherit;
+    }
+
+    a.active,
+    .aui-list-item.active > a {
+        color: @jira-dropdown-menuitem-text-focus-color;
+    }
+}
+
+.admin-menu-links {
+    .aui-nav-heading {
+        clear: both;
+    }
+    .aui-lozenge {
+        float: right;
+        margin-bottom: 10px;
+    }
+}

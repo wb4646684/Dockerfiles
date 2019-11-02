@@ -1,0 +1,41 @@
+@import "webstatic:/ui/imports/aui-colours";
+
+jira-color-picker {
+
+  @color-preview-size: 16px;
+  @sample-color-margin: 2px;
+
+  @icons-per-row: 18;
+
+  .color-picker-wrapper {
+    display: inline-block;
+    position: relative;
+  }
+
+  .color-preview {
+    padding: 0;
+    position: absolute;
+    top: 7px;
+    right: 5px;
+  }
+
+  .sample-color {
+    margin-right: @sample-color-margin;
+    margin-top: @sample-color-margin;
+    display: block;
+    cursor: pointer;
+  }
+
+  .sample-color,
+  .color-preview {
+    height: @color-preview-size;
+    width: @color-preview-size;
+  }
+
+  .sample-color-container {
+    // add additional spacing so zoom artifacts will not be visible
+    max-width: @icons-per-row * (@color-preview-size + @sample-color-margin) + @sample-color-margin;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

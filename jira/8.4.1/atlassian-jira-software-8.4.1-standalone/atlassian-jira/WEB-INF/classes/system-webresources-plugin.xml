@@ -1,0 +1,60 @@
+<atlassian-plugin key="jira.core" i18n-name-key="admin.web.resources.plugin.name" name="Web Resources Plugin Jira Core">
+    <plugin-info>
+        <description key="admin.web.resources.plugin.desc">System Web Resources Core</description>
+        <version>1.0</version>
+        <application-version min="4.0" max="4.0"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+    <!--
+
+    DO NOT ADD ANYTHING TO THIS FILE.
+    SEE jira-webresources-plugin. You can use QuickReload there!
+    ASK THE ARCHITECT IF YOU REALLY WANT TO PUT STH HERE
+
+    -->
+
+    <url-reading-web-resource-transformer key="cssSubstitution" class="com.atlassian.jira.web.util.CssSubstitutionWebResourceTransformer"/>
+
+    <web-resource key="soy-generated-about-lgpl">
+        <resource type="soy" name="lgplLibs" location="/templates/jira/about/lgpl-libs.soy"/>
+    </web-resource>
+
+    <web-resource key="user-message-flags-data" name="user-message-flags-data" state="enabled">
+        <data key="adminLockout" class="com.atlassian.jira.plugin.dataprovider.AdminIssueLockoutFlagDataProvider" />
+    </web-resource>
+
+    <web-resource key="jira-admin-data-data" state='enabled'>
+        <data key="data" class="com.atlassian.jira.web.action.admin.AdminUserDataProvider" />
+    </web-resource>
+
+    <web-resource key="jira-project-data-data" state='enabled'>
+        <data key="data" class="com.atlassian.jira.web.action.project.ProjectDataProvider" />
+    </web-resource>
+
+    <web-resource key="dateFormatProvider">
+        <dependency>jira.webresources:wrm-data</dependency>
+
+        <data key="allFormats" class="com.atlassian.jira.web.util.DateFormatProvider" />
+    </web-resource>
+
+    <web-resource key="default-comment-security-level-data">
+        <data key="DefaultCommentSecurityLevelHelpLink" class="com.atlassian.jira.web.action.issue.DefaultCommentSecurityLevelHelpLinkDataProvider"/>
+    </web-resource>
+
+    <web-resource key="jira-bulk-edit-data">
+        <data key="subtaskIds" class="com.atlassian.jira.web.action.issue.bulkedit.SubtaskIdDataProvider" />
+    </web-resource>
+
+    <web-resource key="avatar-picker-data" name="avatar-picker-data" state="enabled">
+        <data key="data" class="com.atlassian.jira.web.util.AvatarPickerConfigDataProvider" />
+    </web-resource>
+
+    <web-resource key="jqlautocomplete-data" name="jqlautocomplete-data" state="enabled">
+        <data key="jql.autocomplete.recentFields" class="com.atlassian.jira.web.action.jql.JqlRecentFieldsDataProvider" />
+    </web-resource>
+
+    <web-resource key="feature-flags-data">
+        <data key="feature-flag-data" class="com.atlassian.jira.config.feature.FeatureFlagDataProvider" />
+    </web-resource>
+</atlassian-plugin>

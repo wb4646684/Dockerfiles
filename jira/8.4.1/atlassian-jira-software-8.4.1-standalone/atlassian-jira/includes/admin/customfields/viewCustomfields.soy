@@ -1,0 +1,325 @@
+{namespace JIRA.Templates.Admin.Customfields}
+
+/**
+ * Skelton of the page rendered from server, which is further populated by JavaScript clientside
+ * @param? customFieldTypesExist
+ * @param? multiLingual
+ */
+{template .customfieldsPage}
+    {call aui.page.document}
+        {param windowTitle: getText('admin.menu.issuefields.custom.fields') /}
+        {param headContent}
+            <meta name="admin.active.section" content="admin_issues_menu/element_options_section/fields_section" />
+            <meta name="admin.active.tab" content="view_custom_fields" />
+            <meta name="ajs-is-multilingual" content="{$multiLingual}" />
+            <meta name="ajs-is-custom-field-types-exist" content="{$customFieldTypesExist}" />
+        {/param}
+        {param content}
+            {call JIRA.Templates.Headers.pageHeader}
+                {param mainContent}
+                    <h2>{getText('admin.menu.issuefields.custom.fields')}</h2>
+                {/param}
+                {param actionsContent}
+                    {if $customFieldTypesExist}
+                        {call aui.form.buttons}
+                            {param content}
+                                {call aui.form.button}
+                                    {param id: 'add_custom_fields' /}
+                                    {param href: 'CreateCustomField!default.jspa' /}
+                                    {param text: getText('admin.issuefields.customfields.add.custom.field') /}
+                                {/call}
+                            {/param}
+                        {/call}
+                    {/if}
+                {/param}
+            {/call}
+            <p>{getText('admin.issuefields.customfields.description')}</p>
+            {if not $customFieldTypesExist}
+                {call aui.message.warning}
+                    {param content}<p>{getText('admin.issuefields.customfields.no.plugins.configured')}</p>{/param}
+                {/call}
+            {/if}
+            <div id="customfields-container" data-track-pageview="admin.customfields"></div>
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * customfieldsPageContent - includes the container for table, pagination etc
+ */
+{template .customfieldsPageContent}
+    <form id="custom-fields-filter" class="aui ajs-dirty-warning-exempt customfield-filter-form"
+          onsubmit="return false">
+    </form>
+    <table id="custom-fields-table" class="aui"></table>
+    <div id="pagination-container" data-track-click="admin.customfields.pagination"></div>
+{/template}
+
+/**
+ * customfieldsTableContent - includes the container for table, pagination etc
+ */
+{template .customfieldsTableContent}
+    <thead>
+    <tr>
+        <th class="customfield-name">{getText('common.words.name')}</th>
+        <th class="customfield-type">{getText('admin.common.words.type')}</th>
+        <th class="customfield-contexts">{getText('admin.issuefields.available.contexts')}</th>
+        <th class="customfield-screens">{getText('admin.issuefields.screens')}</th>
+        <th class="customfield-actions">{getText('common.words.actions')}</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+{/template}
+
+/**
+ * customfieldsPageEmptyContent - displayed when there are no customfields
+ */
+{template .customfieldsEmptyPageContent}
+    {call aui.message.info}
+        {param content}
+            <p>{getText('admin.issuefields.customfields.no.custom.fields.defined')}</p>
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * View custom field
+ * @param customfield {id, numericId, isManaged, isLocked, isAllProjects, managedFieldDescription, untranslatedDescriptionProperty}
+ * @param? multiLingual
+ */
+{template .customfield}
+    <td>
+        <strong title="{$customfield?.name}">{$customfield?.name}</strong>
+        {if $customfield?.isLocked}
+            {call aui.lozenges.lozenge}
+                {param text: getText('admin.managed.configuration.items.locked') /}
+                {param title: $customfield?.managedFieldDescriptionKey /}
+                {param type: 'error' /}
+                {param extraClasses: 'status-locked' /}
+            {/call}
+        {elseif $customfield?.isManaged}
+            {call aui.lozenges.lozenge}
+                {param text: getText('admin.managed.configuration.items.managed') /}
+                {param title: $customfield?.managedFieldDescriptionKey /}
+                {param type: 'error' /}
+                {param extraClasses: 'status-managed' /}
+            {/call}
+        {/if}
+        {if $customfield?.description}
+            <div class="secondary-text description"
+                 title="{$customfield?.description}">{$customfield?.description |noescape}</div>
+        {/if}
+    </td>
+    <td><span>{$customfield?.type}</span></td>
+    <td>
+        {if $customfield?.isAllProjects}
+            {getText('admin.issuefields.customfields.global.all.projects')}
+        {elseif $customfield?.projectsCount}
+            {call aui.form.buttons}
+                {param content}
+                    {call aui.form.linkButton}
+                        {param id: 'view_available_contexts_' + $customfield?.id /}
+                        {param type: 'primary' /}
+                        {param href: 'AssociatedProjectsForCustomField.jspa?customFieldId=' + $customfield.numericId /}
+                        {param text: getText('admin.issuefields.customfields.projects.conditional', $customfield?.projectsCount) /}
+                        {param extraClasses: 'trigger-dialog' /}
+                    {/call}
+                {/param}
+            {/call}
+        {else}
+            {getText('admin.issuefields.customfields.projects.conditional', $customfield?.projectsCount)}
+        {/if}
+    </td>
+    <td>
+        {if $customfield?.screensCount}
+            {call aui.form.buttons}
+                {param content}
+                    {call aui.form.linkButton}
+                        {param id: 'view_field_screens_' + $customfield?.id /}
+                        {param type: 'primary' /}
+                        {param href: 'AssociatedScreensForCustomField.jspa?customFieldId=' + $customfield?.id /}
+                        {param text: getText('admin.issuefields.customfields.screens.conditional', $customfield?.screensCount) /}
+                        {param extraClasses: 'trigger-dialog' /}
+                    {/call}
+                {/param}
+            {/call}
+        {else}
+            {getText('admin.issuefields.customfields.screens.conditional', $customfield?.screensCount)}
+        {/if}
+    </td>
+    <td class="cell-type-actions">
+        <button class="aui-button aui-dropdown2-trigger aui-alignment-target aui-alignment-abutted aui-alignment-abutted-left aui-alignment-element-attached-top aui-alignment-element-attached-left aui-alignment-target-attached-bottom aui-alignment-target-attached-left"
+                aria-haspopup="true" resolved="" aria-controls="dropdown2-more-{$customfield.id}" aria-expanded="false">
+            <span class="aui-icon aui-icon-small aui-iconfont-configure"></span>
+        </button>
+        <div id="dropdown2-more-{$customfield.id}" class="aui-dropdown2 aui-style-default">
+            <ul class="aui-list-truncate">
+                {if not $customfield.isLocked}
+                    <li><a id="config_{$customfield.id}"
+                           href="ConfigureCustomField!default.jspa?customFieldId={$customfield.numericId}">{getText('admin.common.words.configure')}</a>
+                    </li>
+                {else}
+                    <li><a id="config_{$customfield.id}"
+                           href="ConfigureCustomField!default.jspa?customFieldId={$customfield.numericId}">{getText('common.words.view')}</a>
+                    </li>
+                {/if}
+                {if not $customfield.isLocked}
+                    <li><a id="edit_{$customfield.name}"
+                           href="EditCustomField!default.jspa?id={$customfield.numericId}">{getText('common.words.edit')}</a>
+                    </li>
+                    {if $multiLingual}
+                        <li class="aui-list-item"><a id="translate_{$customfield.id}"
+                                                     href="TranslateCustomField!default.jspa?id={$customfield.numericId}">{getText('admin.issuefields.customfields.translate')}</a>
+                        </li>
+                    {/if}
+                {/if}
+                <li><a id="associate_{$customfield.id}"
+                       href="AssociateFieldToScreens!default.jspa?fieldId={$customfield.id}&returnUrl=ViewCustomFields.jspa">{getText('admin.issuefields.screens')}</a>
+                </li>
+                {if not $customfield.isLocked}
+                    <li><a id="del_{$customfield.id}"
+                           href="DeleteCustomField!default.jspa?id={$customfield.numericId}">{getText('common.words.delete')}</a>
+                    </li>
+                {/if}
+            </ul>
+        </div>
+    </td>
+{/template}
+
+/**
+ * Show error message while try to change CF page
+ * @param? messages
+ * @param status
+ */
+{template .applicationAccessError}
+    {switch $status}
+        {case 401}
+            {getText('admin.issuefields.customfields.error.rest.unauthorized.description')}
+        {case 403}
+            {getText('admin.issuefields.customfields.error.rest.forbidden.description')}
+        {case 0}
+            <p>{getText('admin.issuefields.customfields.error.rest.commserror')}</p>
+        {default}
+            {if isNonnull($messages) and length($messages) != 0}
+                {foreach $message in $messages}
+                    <p>{$message}</p>
+                {/foreach}
+            {else}
+                <p>{getText('rest.error.internal')}</p>
+            {/if}
+    {/switch}
+{/template}
+
+/**
+ * Show error message header while try to change CF page
+ * @param status
+ */
+{template .applicationAccessErrorHeading}
+    {switch $status}
+        {case 401}
+            {getText('admin.issuefields.customfields.error.rest.unauthorized')}
+        {case 403}
+            {getText('admin.issuefields.customfields.error.rest.forbidden')}
+        {default}
+            {getText('common.words.error')}
+    {/switch}
+{/template}
+
+/**
+ * A single container for filters
+  */
+{template .filterContainer}
+    <div class="customfield-filter-items">
+        <div class="customfield-filter-item">
+            <input type="text"
+                   id="custom-fields-filter-text"
+                   data-track-click="admin.customfields.filter.text"
+                   placeholder="{getText('browse.projects.filtertext.placeholder')}"
+                   class="version-filter-text text">
+            <span class="aui-icon aui-icon-small aui-iconfont-search-small"></span>
+        </div>
+        {call .filterItem}
+            {param id: 'projects' /}
+            {param name: getText('common.words.project') /}
+            {param text: getText('common.words.project') + ': ' + getText('common.words.all') /}
+        {/call}
+        {call .filterItem}
+            {param id: 'types' /}
+            {param name: getText('admin.common.words.type') /}
+            {param text: getText('admin.common.words.type') + ': ' + getText('common.words.all') /}
+        {/call}
+        {call .filterItem}
+            {param id: 'screens' /}
+            {param name: getText('admin.common.words.screen') /}
+            {param text: getText('admin.common.words.screen') + ': ' + getText('common.words.all') /}
+        {/call}
+    </div>
+{/template}
+
+/**
+ * A single filter item
+ * @param checked
+ * @param id
+ * @param name
+ * @param? description
+ * @param? avatarUrl
+*/
+{template .filterDropdownItem}
+    <label title="{$description}" class="customfield-filter-dropdown-item">
+        <input class="customfield-filter-item-checkbox" value="{$id}" type="checkbox"
+               {if ($checked)}checked="checked"{/if}/>
+        {if ($avatarUrl)}
+            <span class="customfield-filter-image">
+                    <img height="16" width="16" align="absmiddle" src="{$avatarUrl}">
+                </span>
+        {/if}
+        <span class="customfield-filter-text">{$name}</span>
+    </label>
+{/template}
+
+/**
+ * @param id
+ * @param text
+*/
+{template .filterItem}
+    <div class="customfield-filter-item" id="{$id}">
+        <button data-track-click="admin.customfields.filter.{$id}"
+                class="aui-button aui-button-subtle aui-dropdown2-trigger customfield-filter-dropdown-trigger"
+                aria-controls="{$id}-filter-dropdown" id="{$id}-dropdown-trigger">
+            {$text}
+        </button>
+        <aui-dropdown-menu id="{$id}-filter-dropdown" aria-controls="left-aligned"></aui-dropdown-menu>
+    </div>
+{/template}
+
+/**
+ * Template for filter and dropdown
+ * @param title
+ * @param placeholder
+*/
+{template .filterDropdownContainer}
+    <div class="customfield-filter-text-search">
+        <input type="text" class="customfield-filter-text-search-input" placeholder="{$placeholder}" />
+        <span class="icon-default aui-icon aui-icon-small noloading aui-iconfont-search"></span>
+    </div>
+
+    <div class="customfield-filter-scroll">
+        <div class="customfield-filter-selected-items-container">
+            <div class="customfield-filter-clear">
+                <span class="aui-button aui-button-link clear-selected">{getText('common.filters.clear')}</span>
+            </div>
+            <ul class="customfield-filter-dropdown-items selected-items"></ul>
+        </div>
+
+        <aui-section label="{$title}" class="unselected-items-container">
+            <ul class="customfield-filter-dropdown-items unselected-items"></ul>
+        </aui-section>
+    </div>
+{/template}
+
+/**
+ * Renders empty state for filters
+*/
+{template .emptyFilterView}
+    <li class="no-suggestions">{getText('common.filters.no.matches')}</li>
+{/template}

@@ -1,0 +1,1 @@
+define("jira/share/entities/share-type/any-share",["jira/share/i18n"],function(e){"use strict";function t(){this.type="any",this.singleton=!0}return t.prototype={getDisplayDescriptionFromUI:function(){return e.getMessage("share_any_description")}},t});

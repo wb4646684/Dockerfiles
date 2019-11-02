@@ -1,0 +1,17 @@
+{namespace JIRA.Templates.GlobalMessages}
+/**
+ * Render global AUI messages
+ * @param globalErrors
+ * @param extraClasses additional classes to be added to each message
+ */
+{template .globalMessages}
+    {if $globalErrors and length($globalErrors)}
+        {call aui.message.error}
+            {param content}
+                {foreach $error in $globalErrors}
+                    <p class="jira-global-message-paragraph {call aui.renderExtraClasses data="all" /}">{$error}</p>
+                {/foreach}
+            {/param}
+        {/call}
+    {/if}
+{/template}

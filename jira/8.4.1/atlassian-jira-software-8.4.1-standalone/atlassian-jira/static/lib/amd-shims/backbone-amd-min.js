@@ -1,0 +1,1 @@
+define("backbone",["jquery","underscore","atlassian/libs/factories/backbone-1.0.0","jira/backbone-queryparams"],function(a,e,r,n){var b=r(e,a);return n(b),b});

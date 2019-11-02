@@ -1,0 +1,57 @@
+{namespace JIRA.Templates.Messages}
+
+/**
+* Warning message
+* @param msg
+* @param? closeable
+*/
+{template .warningMsg}
+<div class="aui-message aui-message-warning {if $closeable}closeable{/if}">
+    {$msg|noAutoescape}
+    {if $closeable}
+        <span class="aui-icon icon-close"></span>
+    {/if}
+</div>
+{/template}
+
+/**
+* Success message
+* @param msg
+* @param? closeable
+*/
+{template .successMsg}
+<div class="aui-message aui-message-success {if $closeable}closeable{/if}">
+    {$msg|noAutoescape}
+    {if $closeable}
+        <span class="aui-icon icon-close"></span>
+    {/if}
+</div>
+{/template}
+
+/**
+* Error message
+* @param msg
+* @param? closeable
+*/
+{template .errorMsg}
+<div class="aui-message aui-message-error {if $closeable}closeable{/if}">
+    {$msg|noAutoescape}
+    {if $closeable}
+        <span class="aui-icon icon-close"></span>
+    {/if}
+</div>
+{/template}
+
+/**
+* Info message
+* @param msg
+* @param? closeable
+*/
+{template .infoMsg}
+<div class="aui-message aui-message-info {if $closeable}closeable{/if}">
+    {$msg|noAutoescape}
+    {if $closeable}
+        <span class="aui-icon icon-close"></span>
+    {/if}
+</div>
+{/template}

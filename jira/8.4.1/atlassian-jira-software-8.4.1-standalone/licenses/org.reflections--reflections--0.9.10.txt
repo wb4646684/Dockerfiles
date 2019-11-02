@@ -1,0 +1,23 @@
+Original script by Josh Fraser (http://www.onlineaspect.com)
+Continued and maintained by Jon Nylander at
+https://bitbucket.org/pellepim/jstimezonedetect
+
+Provided under the Do Whatever You Want With This Code License.
+
+ Do What You Want License
+
+DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+                                    Version 2, December 2004
+
+Copyright (C) 2004 Sam Hocevar
+22 rue de Plaisance, 75014 Paris, France
+Everyone is permitted to copy and distribute verbatim or modified copies of 
+this license document, and changing it is allowed as long as the name is 
+changed.
+
+
+DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+
+0. You just DO WHAT THE FUCK YOU WANT TO.

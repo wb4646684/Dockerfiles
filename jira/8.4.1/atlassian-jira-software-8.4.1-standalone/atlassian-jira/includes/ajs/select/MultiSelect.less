@@ -1,0 +1,205 @@
+@import "_SelectMixins.less";
+
+@temp-label-background-color: @aui-color-N0;
+@temp-label-border-color: transparent;
+@temp-label-text-color: @aui-color-N800;
+@temp-label-faint-text-color: @aui-color-mid;
+
+@temp-label-active-background-color: @aui-color-hero;
+@temp-label-active-border-color: @aui-color-atlassian;
+@temp-label-active-text-color: #fff;
+@temp-label-active-faint-text-color: #fff;
+
+.jira-multi-select {
+    .autocomplete-container();
+
+    > .icon {
+        .autocomplete-dropdown-button(normal);
+    }
+
+    > textarea {
+        .border-box();
+        .text-overflow();
+        display: block;
+        font-size: 13px;
+        line-height: 1.4285714285714;
+        resize: none;
+        &::-ms-clear {
+            display: none;
+        }
+        &.text:not(:focus) {
+            background: @aui-color-N30;
+            border-color: transparent;
+            &:hover {
+                background-color: @aui-color-N40;
+            }
+        }
+        &.text:focus ~ .representation button {
+            background-color: @aui-color-N30A;
+        }
+    }
+
+    &:hover textarea:not(:focus) {
+        background-color: @aui-color-N40;
+        ~ .representation button {
+            background-color: @aui-color-N0;
+        }
+    }
+
+}
+
+&.aui-ss-select {
+    > .aui-ss-field:not(.active) {
+        background: @aui-color-N30;
+        border-color: transparent;
+    }
+    &:hover .aui-ss-field:not(.active):not([disabled]) {
+        background-color: @aui-color-N40;
+    }
+}
+
+.jira-multi-select > .representation {
+    @gap: 3px;
+
+    border: 0;
+    left: 6px; // equal to left padding + left border
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 28px; // so that the lozenges won't overlap the icon.
+    top: 6px - @gap; // So the first line of lozenges sits flush with the input.
+    pointer-events: none; // So clicks will fall through to the input field itself.
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+// Layout
+    .item-row {
+        display: inline-block;
+        height: 18px; // a result should not be any larger than line-height.
+        padding: 0;
+        max-width: 100%;
+        margin: (@gap - 1px) (2 * @gap) 1px 0;
+        pointer-events: auto; // So that users can click items to focus them (or delete them)
+        position: relative;
+        vertical-align: top;
+
+        > .value-item {
+            border-width: 1px;
+            border-style: solid;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: normal;
+            height: 100%;
+            line-height: 1;
+            max-width: 100%;
+            padding: 0 5px;
+            padding-right: 20px; // to make room for the delete icon.
+            vertical-align: top;
+            margin: 0;
+        }
+        .value-text {
+            display: block;
+            max-width: 100%;
+            overflow: hidden;
+            font-size: 13px;
+            line-height: 15px;
+            height: 100%;
+            text-align: left;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .item-text {
+            // NOTE: Do not set any text-overflow on this element, lest you mess up line-heights and text clipping
+            // none
+        }
+
+        .item-delete {
+            cursor: pointer;
+            display: inline-block;
+            height: 100%;
+            line-height: 1;
+            position: absolute;
+            right: 0;
+            width: 18px;
+            vertical-align: text-bottom;
+            border-radius: 3px;
+            top: 0;
+
+            &:hover {
+                background-color: #ffbdad;
+            }
+
+            &::after {
+                content: " ";
+                background-image: url("../../../images/icons/delete.svg");
+                width: 100%;
+                height: 100%;
+                background-size: 6px 6px;
+                background-repeat: no-repeat;
+                background-position: center;
+                display: inline;
+                font-size: 15px;
+                line-height: 1;
+                position: absolute;
+                speak: none;
+                text-align: center;
+                vertical-align: text-bottom;
+            }
+        }
+    }
+
+// Colours and such
+    .value-item {
+        .border-radius(3px);
+        background: @temp-label-background-color;
+        border-color: @temp-label-border-color;
+        color: @temp-label-text-color;
+    }
+    .item-delete {
+        color: @temp-label-faint-text-color;
+        font-style: normal;
+    }
+
+    .focused {
+        .value-item {
+            background-color: @temp-label-active-background-color;
+            border-color: @temp-label-active-border-color;
+        }
+        .item-delete {
+            color: @temp-label-active-faint-text-color;
+            font-style: normal;
+        }
+    }
+}
+
+// Interop with AUI forms
+// -----------------------
+form.aui .jira-multi-select,
+.jiraform .jira-multi-select {   // because the .jira-multi-select container is inline-block,
+    width: 100%;                 // the width:100%; on the `form.aui .text` won't work.
+    max-width: 250px;            // we need to re-state it here ourselves.
+
+    &.short-field,
+    &.short-field > textarea { max-width: 75px; }
+    &.medium-field,
+    &.medium-field > textarea { max-width: 165px; }
+    &.long-field,
+    &.long-field > textarea { max-width: 500px; }
+    &.full-width-field,
+    &.full-width-field > textarea { max-width: none; }
+
+    > textarea {
+        padding-right: 28px; // to make room for the .icon
+        vertical-align: top;
+        width: 100%;
+    }
+
+    ~ div.description {
+        margin-top: 0;
+    }
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "label": "ThreadPool",
+    "name": "Catalina:type=ThreadPool,name=*",
+    "attributes": ["currentThreadsBusy","connectionCount","currentThreadCount","maxThreads"]
+  },
+  {
+    "label": "OS",
+    "name": "java.lang:type=OperatingSystem",
+    "attributes": ["OpenFileDescriptorCount","MaxFileDescriptorCount","CommittedVirtualMemorySize","TotalSwapSpaceSize","FreeSwapSpaceSize","ProcessCpuTime","FreePhysicalMemorySize","TotalPhysicalMemorySize","SystemCpuLoad","ProcessCpuLoad","SystemLoadAverage","AvailableProcessors"]
+  },
+  {
+    "label": "GC",
+    "name": "java.lang:type=GarbageCollector,name=*",
+    "attributes": ["CollectionCount","CollectionTime","Name"]
+  },
+  {
+    "label": "Threading",
+    "name": "java.lang:type=Threading",
+    "attributes": ["CurrentThreadUserTime","ThreadCount","TotalStartedThreadCount","CurrentThreadCpuTime","PeakThreadCount","DaemonThreadCount"]
+  },
+  {
+    "label": "TomcatManager",
+    "name": "Catalina:type=Manager,host=*,context=*",
+    "attributes": ["sessionAverageAliveTime","rejectedSessions","maxActiveSessions","sessionExpireRate","activeSessions","sessionCreateRate", "expiredSessions", "maxActive","sessionCounter"]
+  },
+  {
+    "label": "RequestProcessor",
+    "name": "Catalina:type=GlobalRequestProcessor,name=*",
+    "attributes": ["requestCount","maxTime","bytesReceived","bytesSent","processingTime","errorCount"]
+  }
+]

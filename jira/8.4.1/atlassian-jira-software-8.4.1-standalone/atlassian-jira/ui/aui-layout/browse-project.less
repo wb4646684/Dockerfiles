@@ -1,0 +1,308 @@
+@import "../imports/aui-colours";
+@import "../imports/mixins/text-overflow.less";
+
+.issue-filter-links {
+  list-style: none;
+  padding-left: 0;
+}
+
+.p-list {
+  margin-bottom: 20px;
+
+  .aui-avatar {
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+
+  .project-type-icon {
+    height: 18px;
+    width: 18px;
+    margin-right: 6px;
+  }
+
+  > table > thead {
+    .sortable {
+      cursor: pointer;
+    }
+
+    .sortable:hover {
+      background-color: @aui-color-faint;
+    }
+
+    .active {
+      color: @aui-color-N300;
+      background-color: @aui-color-faint;
+
+      &:hover {
+        background-color: @aui-color-highlight-secondary;
+      }
+
+      .issuetable-header-sort-icon {
+        position: relative;
+        top: -1px;
+      }
+    }
+  }
+}
+
+.projects-list.projects-list td {
+  vertical-align: middle;
+}
+
+form.aui .project-filter-item {
+  display: inline-block;
+  position: relative;
+
+  .text {
+    // leave enough room for the icon to prevent the user from typing over the icon
+    // using the same spacing as aui form notifications: https://docs.atlassian.com/aui/latest/docs/form-notification.html
+    width: 255px;
+    padding-left: 32px;
+  }
+
+  .aui-icon {
+    margin-top: -8px;
+    position: absolute;
+    left: 6px;
+    top: 50%;
+  }
+}
+
+//pulled these out from inline styles. Will address the whole thing when we tweak the graph
+.created-issue-count {
+  color: #c00;
+  font-weight: bold;
+}
+
+.resolved-issue-count {
+  color: #3c3;
+  font-weight: bold;
+}
+
+.project-details .operations-list {
+  margin-top: 3px;
+
+  .user-avatar {
+    vertical-align: text-top;
+  }
+
+  > li + li:before {
+    color: @aui-border-color;
+    margin: 0 3px;
+  }
+
+  .list-label {
+    color: @aui-color-mid;
+  }
+}
+
+.aui-nav-pagination {
+  float: right;
+}
+
+.projects-list {
+  .projects-list {
+    &__row-empty {
+      border-bottom: 0;
+      td {
+        padding: 50px;
+      }
+    }
+  }
+}
+
+.project-type-icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.project-type-nav {
+  margin-bottom: 30px;
+}
+
+.browse-project-group-heading {
+  color: #707070;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1.66666667;
+  text-transform: uppercase;
+  margin: 20px 0 0 0;
+}
+
+.project-types-filters {
+  li {
+    position: relative;
+    a {
+      display: inline-block;
+    }
+  }
+}
+
+.no-project-results {
+  background: transparent none no-repeat top center;
+  background-image: inlineimage('images/adbox/noresults.svg');
+  padding: 220px 20px 20px 20px;
+  width: auto;
+  margin: 0 auto;
+  text-align: center;
+  background-size: 200px;
+  border: 0px;
+}
+
+.no-project-results-cta .create-business-project-image {
+  width: 110px;
+  height: 200px;
+  float: left;
+  margin: -10px 20px 10px 10px;
+  background: transparent none no-repeat top center;
+  background-image: url('../../../images/adbox/nobusinessproject.svg');
+}
+
+.no-project-results-cta p {
+  white-space: normal;
+}
+
+.no-project-results-cta {
+  width: 70%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.no-projects-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 146px;
+  margin-bottom: 60px;
+  img {
+    width: 240px;
+    height: 160px;
+  }
+  p:last-child {
+    margin-top: 32px;
+  }
+}
+
+.browse-project-error-page {
+  background-color: @aui-color-page;
+  #footer-logo {
+    background-color: @aui-color-page;
+  }
+}
+
+.browse-projects {
+  background-color: @aui-color-page;
+
+  .aui-page-panel {
+    border-width: 2px 0;
+    border-color: @aui-color-N30;
+    &-nav {
+      border-right: 2px solid @aui-color-N30;
+    }
+  }
+
+  table.aui > thead {
+    border-bottom: 2px solid @aui-color-N30;
+    color: @aui-color-N300;
+  }
+
+  #projects {
+    margin-top: 36px;
+  }
+  .archived-projects-empty-state {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #fff;
+    .no-projects-container {
+      margin-top: 0;
+    }
+  }
+}
+
+#browse-projects-page {
+  margin-bottom: 60px;
+  .module {
+    position: relative;
+    min-height: 300px;
+  }
+  table.aui {
+    table-layout: fixed;
+    .project-list {
+      &-icon {
+        width: 6%;
+      }
+
+      @media (min-width: 1340px) {
+        &-name {
+          width: 15%;
+        }
+        &-key {
+          width: 7%;
+        }
+        &-type {
+          width: 10%;
+        }
+        &-lead,
+        &-assignee {
+          width: 9%;
+        }
+        &-category,
+        &-archived-date,
+        &-archived-by,
+        &-updated-date,
+        &-url,
+        &-actions {
+          width: 10%;
+        }
+        &-issue-count {
+          width: 7%;
+          text-align: right;
+        }
+      }
+
+      @media (max-width: 1340px) {
+        &-actions {
+          width: 8%;
+        }
+        &-archived-date,
+        &-updated-date {
+          width: 17%;
+        }
+      }
+    }
+
+    tbody.projects-list td:not(.cell-type-actions) {
+      .text-overflow();
+    }
+
+    td.cell-type-issue-count {
+      width: 7%;
+      text-align: right;
+    }
+
+  }
+  //disabling border for AUI 7.0.1
+  .aui-nav-heading {
+    border: 0;
+  }
+  .page-type-admin &.aui-page-panel {
+    border: none;
+  }
+}
+
+// this is loaded in dialog so will be outside of #browse-projects-page in DOM
+#archive-confirmation-page {
+  .form-body {
+    padding: 20px 20px 15px;
+  }
+  ul {
+    margin-bottom: 5px;
+  }
+}

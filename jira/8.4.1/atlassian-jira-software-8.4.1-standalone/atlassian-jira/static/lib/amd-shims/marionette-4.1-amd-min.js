@@ -1,0 +1,1 @@
+define("jira/marionette-4.1",["atlassian/libs/underscore-1.8.3","jira/backbone-1.3.3","jira/backbone.radio-2.0","atlassian/libs/factories/marionette-4.1.2","jira/marionette/marionette.mixins"],function(e,i,t,n,o){const a=n(e,i,t);return e.extend(a.View.prototype,o.viewExtensions),e.extend(a.CollectionView.prototype,o.viewExtensions),a});

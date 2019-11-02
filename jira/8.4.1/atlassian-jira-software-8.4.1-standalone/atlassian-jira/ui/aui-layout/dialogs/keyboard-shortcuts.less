@@ -1,0 +1,52 @@
+@import "../../imports/mixins/border-box";
+@import "../../imports/mixins/clearfix";
+
+#shortcutsmenu {
+    .clearfix();
+
+    .module {
+        .border-box();
+        width: 46%;
+        float: left;
+        margin-left: 3.5%;
+        margin-right: 0;
+
+        &.module-alternate {
+            clear: left;
+            margin-left: 0;
+            margin-right: 3.5%;
+        }
+
+        &:first-child + .module {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: 0;
+        }
+    }
+
+    .item-details dl {
+        display: flex;
+        align-items: center;
+    }
+
+    .item-details dl > dt {
+        display: inline-block;
+        flex: none;
+    }
+
+    .item-details dl > dd {
+        display: flex;
+        align-items: center;
+        flex: auto;
+        padding-left: 4px;
+        margin: 0;
+    }
+
+    .item-details > li + li {
+        margin-top: 10px;
+    }
+
+    kbd {
+        margin: 0 6px;
+    }
+}

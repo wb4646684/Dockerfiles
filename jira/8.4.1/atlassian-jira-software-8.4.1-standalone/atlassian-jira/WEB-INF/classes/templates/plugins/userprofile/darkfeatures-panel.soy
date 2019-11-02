@@ -1,0 +1,66 @@
+{namespace Jira.userProfilePanel}
+
+/**
+* @param? globalEnabledFeatures (Array)
+* @param? userEnabledFeatures (Array)
+* @param? atl_token (String)
+*/
+{template .darkFeatures}
+<div class="module isolated">
+    <div class="mod-content">
+        <form class="aui" action="EditDarkFeatures.jspa">
+            <section id="global-dark-features">
+                <h3>{getText('user.profile.darkfeatures.entire.site.title')}</h3>
+                <p>
+                    //TODO - copy site dark-features admin from Confluence too, and link from here for admins.
+                    {getText('user.profile.darkfeatures.entire.site.info')}
+
+                </p>
+                <ul>
+                    {if $globalEnabledFeatures[0]}
+                        {foreach $feature in $globalEnabledFeatures}
+                            <li>
+                                {$feature}
+                            </li>
+                        {/foreach}
+                    {else}
+                        <li>
+                            No global dark features enabled
+                        </li>
+                    {/if}
+                </ul>
+            </section>
+
+            <section id="user-dark-features">
+                <h3>User Dark Features</h3>
+                <p>
+                    These dark features affect you only:
+                </p>
+                <ul>
+                    {if length($userEnabledFeatures) > 0}
+                        {foreach $feature in $userEnabledFeatures}
+                            <li>
+                                {$feature} (<a href="EditDarkFeatures.jspa?action=remove&atl_token={$atl_token}&featureKey={$feature}">remove</a>)
+                            </li>
+                        {/foreach}
+                    {else}
+                        <li>
+                            No user dark features enabled
+                        </li>
+                    {/if}
+                </ul>
+            </section>
+            <div class="field-group">
+                <label for="feature-key">Enable dark feature:</label>
+                <input type="hidden" name="atl_token" value="{$atl_token}" />
+                <input id="feature-key" type="text" value="" name="featureKey" class="text">
+            </div>
+            <div class="buttons-container content-footer">
+                <div class="buttons">
+                    <input type="submit" value="Submit" class="button">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/template}

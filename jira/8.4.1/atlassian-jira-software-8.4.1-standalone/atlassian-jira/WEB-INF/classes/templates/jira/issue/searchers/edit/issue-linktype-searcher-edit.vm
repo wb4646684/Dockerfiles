@@ -1,0 +1,10 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-issuelinktypes")}
+#searcherEditHeader ($searcherId ${i18n.getText($searcherNameKey)})
+<select class="js-default-checkboxmultiselect" multiple="multiple" id="searcher-$searcherId" name="$searcherId" data-placeholder-text="$i18n.getText("common.filters.find.issuelinktypes")">
+    #foreach ($linkType in $linkTypes)
+        <option value="$textutils.htmlEncode($linkType.first())" title="$textutils.htmlEncode($linkType.first())" #if($linkType.second()) selected="selected" #end)>$textutils.htmlEncode($linkType.first())</option>
+    #end
+</select>
+#searcherEditFooter ($searcherId '')
+$!{auiparams.clear()}

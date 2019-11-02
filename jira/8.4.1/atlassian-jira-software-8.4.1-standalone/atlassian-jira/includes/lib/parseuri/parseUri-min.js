@@ -1,0 +1,7 @@
+/*!
+ * parseUri 1.2.2
+ * (c) Steven Levithan <stevenlevithan.com>
+ * MIT License
+ * MODIFIED BY ATLASSIAN
+ */
+define("jira/libs/parse-uri",function(){function e(r){var o=e.options,t={};t[o.q.name]={};for(var a in o.key)t[o.key[a]]="";if(void 0===r||!r)return t;var s=r.toString(),i=document.createElement("a");i.href=s;var n=i.hostname,c=n.indexOf(":")>-1;n=n.indexOf("[")>-1&&n.indexOf("]")>-1?n:"["+n+"]";c&&(s=s.replace(n,"hostname"));var u=o.parser[o.strictMode?"strict":"loose"].exec(s);for(var a in o.key)t[o.key[a]]=u[a]||"";return t[o.key[12]].replace(o.q.parser,function(e,r,a){r&&(t[o.q.name][r]=a)}),c&&(t.host=n,t.authority=t.authority.replace("hostname",t.host),t.source=t.source.replace("hostname",t.host)),t}return e.options={strictMode:!1,key:["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],q:{name:"queryKey",parser:/(?:^|&)([^&=]*)=?([^&]*)/g},parser:{strict:/^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,loose:/^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/}},e}),AJS.namespace("parseUri",null,require("jira/libs/parse-uri"));

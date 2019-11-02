@@ -1,0 +1,37 @@
+<atlassian-plugin name='Whisper Messages Plugin' key='whisper.messages' i18n-name-key="whisper.messages.plugin.name">
+    <plugin-info>
+        <description key="whisper.messages.plugin.desc">This plugin registers whisper messages supplied by JIRA.</description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="7.0"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <resource type="i18n" name="i18n" location="whisper-messages/feature-discovery"/>
+
+    <whisper-message key="archiving-discovery">
+        <dependency>whisper.messages:feature-discovery</dependency>
+
+        <message location="whisper-messages/archiving-discovery.json"/>
+
+        <conditions type="AND">
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.ArchivingEnabledCondition"/>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.ArchivingDiscoveryCondition"/>
+        </conditions>
+    </whisper-message>
+
+    <whisper-message key="issue-archiving-discovery">
+        <dependency>whisper.messages:feature-discovery</dependency>
+
+        <message location="whisper-messages/issue-archiving-discovery.json"/>
+
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.ArchivingEnabledCondition"/>
+    </whisper-message>
+
+    <web-resource key="feature-discovery">
+        <transformation extension="less">
+            <transformer key="lessTransformer"/>
+        </transformation>
+
+        <resource type="download" name="feature-discovery.css" location="whisper-messages/feature-discovery.less"/>
+    </web-resource>
+</atlassian-plugin>

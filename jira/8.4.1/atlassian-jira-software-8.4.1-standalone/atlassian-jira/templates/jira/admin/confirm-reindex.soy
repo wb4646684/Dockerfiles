@@ -1,0 +1,78 @@
+{namespace JIRA.Templates.Admin.Index}
+
+/**
+ * @param clustered
+ * @param nodeId
+ * @param atlToken
+ * @param indexingStrategy
+ */
+{template .confirmReindex}
+
+    {call aui.page.document}
+        {param windowTitle: getText('admin.indexing.jira.indexing') /}
+        {param headContent}
+            <meta name="admin.active.section" content="admin_system_menu/advanced_menu_section/advanced_section"/>
+            <meta name="admin.active.tab" content="indexing"/>
+        {/param}
+        {param content}
+            {call aui.page.pageHeader}
+                {param content}
+                    {call aui.page.pageHeaderMain}
+                        {param content}
+                            <h2>{getText('admin.indexing.confirm.header')}</h2>
+                        {/param}
+                    {/call}
+                {/param}
+            {/call}
+            {call aui.form.form}
+                {param action: '#'/}
+                {param content}
+                    <div class="form-body">
+                        <p>
+                            {if $clustered}
+                                {getText('admin.indexing.confirm.dc.description', '<strong>', $nodeId, '</strong>')|noescape}
+                            {else}
+                                {getText('admin.indexing.confirm.server.description')}
+                            {/if}
+                        </p>
+                    </div>
+                    {call .buttonContainer}
+                        {param atlToken: $atlToken/}
+                        {param indexingStrategy: $indexingStrategy/}
+                    {/call}
+                {/param}
+            {/call}
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * @param atlToken
+ * @param indexingStrategy
+ */
+{template .buttonContainer private="true"}
+    {let $accesskey: getText('AUI.form.submit.button.accesskey') /}
+
+    {call aui.form.buttons}
+        {param content}
+            {call aui.buttons.button}
+                {param id: 'confirm-reindex'/}
+                {param extraClasses: 'aui-button-primary' /}
+                {param extraAttributes: [
+                        'accesskey': getText('AUI.form.submit.button.accesskey')
+                        ] /}
+                {param text: getText('admin.indexing.reindex') /}
+                {param href: 'IndexReIndex!reindex.jspa?atl_token=' + $atlToken + '&indexingStrategy=' + $indexingStrategy /}
+            {/call}
+            {call aui.buttons.button}
+                {param extraAttributes: [
+                        'accesskey': getText('AUI.form.cancel.link.accesskey')
+                        ] /}
+                {param extraClasses: 'cancel' /}
+                {param href: '#' /}
+                {param text: getText('common.words.cancel') /}
+                {param type: 'link' /}
+            {/call}
+        {/param}
+    {/call}
+{/template}

@@ -1,0 +1,26 @@
+<svg id="bull" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <style>
+    .st1,.st3{fill-rule:evenodd;clip-rule:evenodd;fill:#ff991f}.st3{fill:#42526e}
+  </style>
+  <g id="Page-1">
+    <g id="diverse-avatars" transform="translate(-574 -68)">
+      <g id="male_4" transform="translate(574 68)">
+        <path id="XMLID_15_" d="M60 120C27 120 0 93 0 60S27 0 60 0s60 27 60 60-27 60-60 60z" fill-rule="evenodd" clip-rule="evenodd" fill="#de350b"/>
+        <path id="XMLID_14_" class="st1" d="M60 20.5C42.5 20.5 28.5 35 28.5 52v1H92v-1c0-17.5-14.5-31.5-32-31.5z"/>
+        <circle id="XMLID_13_" class="st1" cx="32.5" cy="51.5" r="12.5"/>
+        <circle id="XMLID_12_" class="st1" cx="31" cy="65" r="10.5"/>
+        <circle id="XMLID_11_" class="st1" cx="84.5" cy="53.5" r="15"/>
+        <circle id="XMLID_10_" class="st1" cx="86" cy="65" r="12.5"/>
+        <circle id="XMLID_9_" class="st1" cx="35" cy="35.5" r="10"/>
+        <circle id="XMLID_8_" class="st1" cx="27" cy="47.5" r="12.5"/>
+        <path id="XMLID_7_" d="M60 103c-16 0-29.5-13-29.5-29V47.5h51c4 0 7.5 3.5 7.5 7.5v19c0 16-13 29-29 29z" fill-rule="evenodd" clip-rule="evenodd" fill="#fce0d8"/>
+        <circle id="XMLID_6_" class="st3" cx="48" cy="72.5" r="3.5"/>
+        <circle id="XMLID_5_" class="st3" cx="70.5" cy="72.5" r="3.5"/>
+        <circle id="XMLID_3_" class="st1" cx="34.5" cy="48.5" r="9"/>
+        <path id="Path" class="st1" d="M50.5 65.3l-5.8 1.3c-1.1.2-2.1-.4-2.4-1.5-.2-1.1.4-2.1 1.5-2.4l5.8-1.3c1.1-.2 2.1.4 2.4 1.5.2 1.1-.5 2.1-1.5 2.4z"/>
+        <path class="st1" d="M73.8 66.4l-5.9-.8c-1.1-.1-1.9-1.1-1.7-2.2.1-1.1 1.1-1.9 2.2-1.7l5.9.8c1.1.1 1.9 1.1 1.7 2.2-.1 1-1.1 1.8-2.2 1.7z"/>
+        <path class="st3" d="M60.6 94.5c5.5 0 9.9-3.9 10.5-8.5 0-1-.5-2-1.5-2h-18c-1 0-1.5 1-1.5 2 .5 5 5.5 8.5 10.5 8.5z"/>
+      </g>
+    </g>
+  </g>
+</svg>

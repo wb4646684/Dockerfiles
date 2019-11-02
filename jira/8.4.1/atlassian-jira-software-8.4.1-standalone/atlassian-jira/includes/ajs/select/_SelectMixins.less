@@ -1,0 +1,82 @@
+@import "../../../ui/imports/mixins/border-box";
+@import "../../../ui/imports/mixins/border-radius";
+@import "../../../ui/imports/mixins/aui/buttons";
+@import "../../../ui/imports/mixins/text-overflow";
+@import "plugin://com.atlassian.jira.plugins.jira-ui/less/jira-colors";
+
+@temp-dropdown-arrow-color: @aui-color-mid;
+@temp-dropdown-arrow-hover-color: @aui-color-text;
+@temp-dropdown-arrow-disabled-color: @aui-color-mid;
+
+.autocomplete-container() {
+    .border-box();
+    display: inline-block;
+    overflow: visible;
+    position: relative;
+
+    &.aui-disabled > .aui-disabled-blanket {
+        cursor: not-allowed;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+    }
+}
+
+.autocomplete-dropdown-button-layout() {
+    .border-box();
+    .border-left-radius(0);
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 0;
+    bottom: 1px;
+    display: block;
+    height: auto;
+    margin: 0;
+    padding: 4px 0;
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    width: 23px;
+    cursor: pointer;
+
+    &::after {
+        position: absolute;
+        font-family: Adgs Icons;
+        content: "\F15B";
+        font-weight: 400;
+        font-style: normal;
+        speak: none;
+        font-size: 16px;
+        height: 16px;
+        line-height: 1;
+        margin-top: -8px;
+        top: 50%;
+        text-indent: 0;
+        width: 16px;
+        right: 2px;
+        border: 0;
+        color: @aui-color-N600;
+    }
+}
+
+.autocomplete-dropdown-button(normal) {
+    &.drop-menu {
+        .autocomplete-dropdown-button-layout();
+    }
+}
+
+.autocomplete-dropdown-button(...) {
+    display: none;
+
+    &.loading {
+        .autocomplete-dropdown-button-layout();
+        background: none; //do not show gif spinner
+
+        &.drop-menu:after {
+            border: 0;
+        }
+    }
+}

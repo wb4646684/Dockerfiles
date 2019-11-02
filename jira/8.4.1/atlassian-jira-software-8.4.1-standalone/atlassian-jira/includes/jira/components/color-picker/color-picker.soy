@@ -1,0 +1,40 @@
+{namespace JIRA.Templates.Components.ColorPicker}
+
+/**
+ * Display whole color picker
+ * @param? errorMessage
+ */
+{template .colorPicker}
+    <div class="color-picker-region"></div>
+    {if $errorMessage}
+        {call aui.form.fieldError}
+            {param message: $errorMessage/}
+        {/call}
+    {/if}
+    {call aui.form.fieldDescription}
+        {param text: getText('admin.issuesettings.priorities.color.description') /}
+    {/call}
+    <div class="sample-colors"></div>
+{/template}
+
+/**
+ * Display color picker input view
+ * @param id
+ * @param? name
+ * @param? color
+ */
+{template .colorPickerInput}
+    <input class="text medium-field" id="{$id}" type="text"
+        {if $color}{sp}value="{$color}"{/if}
+        {if $name}{sp}name="{$name}"{/if}
+    >
+    <div class="color-preview" {if $color}{sp}style="background-color: {$color}"{/if}></div>
+{/template}
+
+/**
+ * Display sample color template
+ * @param color
+ */
+{template .sampleColor}
+    <div class="sample-color" style="background-color: {$color}"></div>
+{/template}

@@ -1,0 +1,1 @@
+!function(n,t){"use strict";var a=window.WRM=n||{};a.data=a.data||{},a.data.claim=a.data.claim||function(){},t=t||{},t.I18n=t.I18n||{},t.I18n.getText=function(n){return n},define("wrm/data",[],function(){return a.data})}(window.WRM,window.AJS);

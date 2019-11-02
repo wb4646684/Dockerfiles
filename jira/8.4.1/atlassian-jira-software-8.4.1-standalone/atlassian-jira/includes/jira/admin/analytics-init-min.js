@@ -1,0 +1,1 @@
+require(["underscore","jira/util/data/meta","jira/util/init-on-dcl","jira/admin/analytics"],function(i,n,a,t){a(function(){var a=n.get("admin.active.tab");i.defer(function(){t.bindEvents(),"view_project_workflows"===a&&t.sendLoadWorkflowsTabEvent()})})});

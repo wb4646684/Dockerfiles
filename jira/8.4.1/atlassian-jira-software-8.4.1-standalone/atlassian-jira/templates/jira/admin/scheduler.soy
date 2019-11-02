@@ -1,0 +1,334 @@
+{namespace JIRA.Templates.Admin.Scheduler}
+
+/**
+ * Show jobs to be run.
+ * @param jobRunners
+ * @param jobDetails
+ */
+{template .viewNext}
+    {call aui.page.document}
+        {param windowTitle: getText('admin.schedulerdetails.scheduler.administration') /}
+        {param extraClasses: 'page-scheduler-admin'/}
+        {param content}
+            {call aui.page.page}
+                {param headerContent}
+                    {call aui.page.pageHeader}
+                        {param content}
+                            {call aui.page.pageHeaderMain}
+                                {param content}
+                                    <h2>{getText('admin.schedulerdetails.scheduler.administration')}</h2>
+
+                                    {getText('admin.schedulerdetails.page.description')}
+                                {/param}
+                            {/call}
+                        {/param}
+                    {/call}
+                {/param}
+                {param contentContent}
+                    {call .renderTabs}
+                        {param jobRunners: $jobRunners/}
+                        {param jobDetails: $jobDetails/}
+                    {/call}
+                {/param}
+                {param footerContent: '' /}
+            {/call}
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * Render tabs for group and list views.
+ * @param jobRunners
+ * @param jobDetails
+ */
+{template .renderTabs}
+    <div class="aui-tabs horizontal-tabs">
+        <ul class="tabs-menu">
+            <li class="menu-item active-tab">
+                <a href="#tabs-group-view">{getText('admin.schedulerdetails.groups')}</a>
+            </li>
+            <li class="menu-item">
+                <a href="#tabs-list-view">{getText('admin.schedulerdetails.jobs')}</a>
+            </li>
+        </ul>
+        <div class="tabs-pane active-pane" id="tabs-group-view">
+            {call .groupsList}
+                {param jobRunners: $jobRunners/}
+            {/call}
+        </div>
+        <div class="tabs-pane" id="tabs-list-view">
+            {call .jobsList}
+                {param jobDetails: $jobDetails/}
+            {/call}
+        </div>
+    </div>
+{/template}
+
+/**
+ * Render list of jobs with triggers.
+ * @param jobRunners
+ */
+{template .groupsList}
+    <table class="aui groups">
+        <thead>
+            <tr>
+                <th class="normal-cell" colspan="3">{getText('admin.schedulerdetails.job.status')}</th>
+                <th class="wide-cell">{getText('admin.schedulerdetails.group.name')}</th>
+                <th class="normal-cell">{getText('admin.schedulerdetails.jobs')}</th>
+                <th class="normal-cell">{getText('admin.schedulerdetails.schedule')}</th>
+                <th class="xsmall-cell">{getText('common.words.actions')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $runner in $jobRunners}
+                <tr data-group-id="{index($runner)}" class="group">
+                    <td class="xsmall-cell">
+                        {call aui.icons.icon}
+                            {param useIconFont: false /}
+                            {param size: 'small' /}
+                            {param icon: $runner.statusIcon == 'success' ? 'approve' : $runner.statusIcon /}
+                            {param useIconFont: true /}
+                        {/call}
+                    </td>
+                    <td class="xsmall-cell badge">
+                        {if $runner.numberOfFailedJobs > 0}
+                            <aui-badge class="scheduler-success">{$runner.numberOfSuccessfulJobs}</aui-badge>
+                        {/if}
+                    </td>
+                    <td class="xsmall-cell badge">
+                        {if $runner.numberOfFailedJobs > 0}
+                            <aui-badge class="scheduler-fail">{$runner.numberOfFailedJobs}</aui-badge>
+                        {/if}
+                    </td>
+                    <td class="wide-cell runner-key" data-group-key="{$runner.key}">
+                        <p title="{toString($runner.key)}">{toString($runner.key)}</p>
+                    </td>
+                    <td class="small-cell number-of-jobs" data-number-of-jobs="{length($runner.jobs)}">
+                        <span>
+                            {getText('admin.schedulerdetails.number.of.jobs', length($runner.jobs))}
+                        </span>
+                    </td>
+                    <td class="small-cell schedule">
+                        <span>
+                            {foreach $schedule in $runner.schedule}
+                                {if not isFirst($schedule)}, {/if}
+                                {$schedule}
+                            {ifempty}
+                                {getText('admin.schedulerdetails.schedule.na')}
+                            {/foreach}
+                        </span>
+                    </td>
+                    <td class="small-cell actions">
+                        {if length($runner.jobs) > 0}
+                            <span class="aui-button aui-button-link show-group-details" data-group-id="{index($runner)}">
+                                {getText('common.words.show.more')}
+                            </span>
+                        {/if}
+
+                        {if $runner.removeable}
+                            {let $menuContent}
+                                <ul class="aui-list-truncate">
+                                    <li>
+                                        <a id="delete-runner-{index($runner)}" href="{contextPath()}/secure/admin/DeleteJobRunner.jspa?runnerKey={toString($runner.key)|escapeUri}" class="delete">
+                                            {getText('admin.common.words.delete')}
+                                        </a>
+                                    </li>
+                                </ul>
+                            {/let}
+                            {call aui.dropdown2.dropdown2}
+                                {param menu: [
+                                    'content' : $menuContent,
+                                    'id': toString($runner.key),
+                                    'extraClasses' : 'aui-style-default' ]/}
+                                {param trigger: [
+                                    'content' : '<span class="aui-icon aui-icon-small aui-iconfont-configure">Configure</span>',
+                                    'extraClasses' : 'aui-button aui-button-compact aui-button-subtle',
+                                    'showIcon' : false] /}
+                            {/call}
+                        {/if}
+                    </td>
+                </tr>
+                {foreach $job in $runner.jobs}
+                    <tr class="group-details hidden" data-group-id="{index($runner)}">
+                        <td class="xsmall-cell">
+                            {if $job.statusIcon}
+                                {call aui.icons.icon}
+                                    {param useIconFont: false /}
+                                    {param size: 'small' /}
+                                    {param icon: $job.statusIcon /}
+                                {/call}
+                            {/if}
+                        </td>
+                        <td class="xsmall-cell badge">
+                            #{index($job)+1}
+                        </td>
+                        <td class="xsmall-cell badge">
+                        </td>
+                        <td class="wide-cell" colspan="4">
+                            {toString($job.jobId)}
+
+                            <dl class="details">
+                                {call .renderJobDetails}
+                                    {param job: $job /}
+                                {/call}
+                            </dl>
+                        </td>
+                    </tr>
+                {/foreach}
+            {/foreach}
+        </tbody>
+    </table>
+{/template}
+
+/**
+ * Render list of jobs' details.
+ * @param jobDetails
+ */
+{template .jobsList}
+    <table class="aui job-details">
+        <thead>
+        <tr>
+            <th class="xsmall-cell">{getText('admin.schedulerdetails.job.status')}</th>
+            <th class="wide-cell">{getText('admin.schedulerdetails.job')}</th>
+            <th class="normal-cell">{getText('admin.schedulerdetails.last.run.duration')}</th>
+            <th class="normal-cell">{getText('admin.schedulerdetails.schedule')}</th>
+            <th class="xsmall-cell">{getText('common.words.actions')}</th>
+        </tr>
+        </thead>
+        <tbody>
+            {foreach $job in $jobDetails}
+                <tr class="job">
+                    <td>
+                        {if $job.lastRunDurationRaw > 30000}
+                            <span class="aui-icon aui-icon-small aui-iconfont-warning"></span>
+                        {/if}
+                    </td>
+                    <td>
+                        {$job.name}
+                    </td>
+                    <td data-sort-value="{$job.lastRunDurationRaw}" data-sort-type="numeric">
+                        {$job.lastRunDuration}
+                    </td>
+                    <td>
+                        {$job.schedule}
+                    </td>
+                    <td class="actions">
+                        <span class="aui-button aui-button-link show-job-details" data-job-id="{index($job)}">
+                            {getText('common.words.show.more')}
+                        </span>
+                    </td>
+                </tr>
+                <tr class="job-details hidden" data-job-id="{index($job)}">
+                    <td> </td>
+                    <td class="wide-cell" colspan="4">
+                        <dl class="details">
+                            <dt>{getText('admin.schedulerdetails.group')}</dt>
+                            <dd class="type">
+                                {$job.group}
+                            </dd>
+                            {call .renderJobDetails}
+                                {param job: $job /}
+                            {/call}
+                        </dl>
+                    </td>
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+{/template}
+
+/**
+ * @param job
+ */
+{template .renderJobDetails}
+    <dt>{getText('admin.schedulerdetails.type')}</dt>
+    <dd class="type">
+        {if $job.runnable}
+            {getText('admin.schedulerdetails.runnable')}
+        {else}
+            {getText('admin.schedulerdetails.not.runnable')}
+        {/if}
+    </dd>
+    <dt>
+        {getText('admin.schedulerdetails.parameters')}
+    </dt>
+    <dd class="parameters">{$job.parametersOrException}</dd>
+    <dt>
+        {getText('admin.schedulerdetails.runmode')}
+    </dt>
+    <dd class="run-mode">
+        {if $job.runLocally}
+            {getText('admin.schedulerdetails.locally')}
+        {else}
+            {getText('admin.schedulerdetails.clustered')}
+        {/if}
+    </dd>
+    <dt>
+        {getText('admin.schedulerdetails.schedule')}
+    </dt>
+    <dd class="schedule">{$job.schedule}</dd>
+    <dt>
+        {getText('admin.schedulerdetails.last.run')}
+    </dt>
+    <dd class="last-run-time">
+        {$job.lastRunTime}
+    </dd>
+    <dt>
+        {getText('admin.schedulerdetails.last.run.duration')}
+    </dt>
+    <dd class="last-run-duration">
+        {$job.lastRunDuration}
+    </dd>
+    <dt>
+        {getText('admin.schedulerdetails.next.run')}
+    </dt>
+    <dd class="next-run-time">{toString($job.nextRunTime)}</dd>
+    <dt>
+        {getText('admin.schedulerdetails.message')}
+    </dt>
+    <dd class="last-run-message">
+        {$job.lastRunMessage}
+    </dd>
+{/template}
+
+/**
+ * @param runnerKey
+ */
+{template .deleteRunner}
+    <h2>{getText('admin.delete.runner.title', $runnerKey)}</h2>
+    <form class="aui" method="POST" action="{contextPath()}/secure/admin/DeleteJobRunner.jspa?runnerKey={$runnerKey|escapeUri}&confirm=true">
+        <div class="form-body">
+            <p>{getText('admin.delete.runner.confirmation', $runnerKey)}</p>
+        </div>
+        <div class="buttons-container form-footer">
+            <div class="buttons">
+                <input type="submit" class="aui-button" value="{getText('common.words.delete')}" />
+                <button class="aui-button aui-button-link cancel">{getText('common.words.cancel')}</button>
+            </div>
+        </div>
+    </form>
+{/template}
+
+/**
+ * @param runnerKey
+ * @param errorMessages
+ */
+{template .cannotDeleteRunner}
+    <h2>{getText('admin.delete.runner.title', $runnerKey)}</h2>
+    <form class="aui" method="POST" action="{contextPath()}/secure/admin/DeleteJobRunner.jspa?runnerKey={$runnerKey|escapeUri}&confirm=true">
+        <div class="form-body">
+            {call aui.message.error}
+                {param content}
+                    {foreach $error in $errorMessages}
+                        <p>{$error}</p>
+                    {/foreach}
+                {/param}
+            {/call}
+        </div>
+        <div class="buttons-container form-footer">
+            <div class="buttons">
+                <button class="aui-button aui-button-link cancel">{getText('common.words.cancel')}</button>
+            </div>
+        </div>
+    </form>
+{/template}

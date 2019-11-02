@@ -1,0 +1,96 @@
+<atlassian-plugin key="jira.keyboard.shortcuts" i18n-name-key="admin.keyboard.shortcuts.plugin.name"
+                  name="Keyboard Shortcuts Plugin">
+
+    <plugin-info>
+        <description key="admin.keyboard.shortcuts.plugin.desc">A plugin that defines a number of keyboard shortcuts.
+        </description>
+        <version>1.0</version>
+        <application-version min="4.0" max="4.0"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+    <!--
+    Operations will generally use jQuery selectors to define the target of an action.  There's a couple of exceptions
+    such as the 'execute' and  'goTo' operations, which take a javascript function and url respectively.
+    -->
+
+    <!-- GLOBAL SHORTCUTS -->
+
+    <keyboard-shortcut key="go-to-dashboard-kb-shortcut" i18n-name-key="admin.keyboard.shortcut.goto.dashboard.name.common.header"
+                       name="Go to Dashboard Keyboard Shortcut - Common Header" state='enabled'>
+        <order>10</order>
+        <description key="admin.keyboard.shortcut.goto.dashboard.desc">
+            Defines a keyboard shortcut to navigate to the user''s current Dashboard.
+        </description>
+        <shortcut>gd</shortcut>
+        <operation type="goTo">/secure/Dashboard.jspa</operation>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="browse-project-kb-shortcut" i18n-name-key="admin.keyboard.shortcut.browse.project.name.common.header"
+                       name="Browse Project Keyboard Shortcut - Common Header" state='enabled'>
+        <order>20</order>
+        <description key="admin.keyboard.shortcut.browse.project.desc">
+            Defines a keyboard shortcut to navigate to the user''s current Project or, alternatively the list of all visible projects.
+        </description>
+        <shortcut>gp</shortcut>
+        <operation type="execute">
+            <![CDATA[
+                var elem = document.getElementById("browse_link");
+                if (elem) {
+                    window.location.href = elem.getAttribute("href");
+                }
+            ]]>
+        </operation>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="issue-navigator-kb-shortcut"
+                       i18n-name-key="admin.keyboard.shortcut.find.issues.name.common.header"
+                       name="Issue Navigator Keyboard Shortcut - Common Header" state='enabled'>
+        <order>30</order>
+        <description key="admin.keyboard.shortcut.find.issues.desc">
+            Defines a keyboard shortcut to navigate to the issue navigator.
+        </description>
+        <shortcut>gi</shortcut>
+        <operation type="execute">
+            <![CDATA[
+                var elem = document.getElementById("find_link");
+                if (elem) {
+                    window.location.href = elem.getAttribute("href");
+                }
+            ]]>
+        </operation>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="quicksearch" i18n-name-key="admin.keyboard.shortcut.quicksearch.name" name="Quick Search" state='enabled'>
+        <order>50</order>
+        <description key="admin.keyboard.shortcut.quicksearch.desc">Quick Search</description>
+        <shortcut>/</shortcut>
+        <operation type="moveToAndFocus">#quickSearchInput, #admin-quick-nav-field</operation>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="shifter" i18n-name-key="admin.keyboard.shortcut.shifter.name" name="Quick Operations" state='enabled'>
+        <order>60</order>
+        <description key="admin.keyboard.shortcut.shifter.desc">Quick Operations</description>
+        <shortcut>.</shortcut>
+        <operation type="execute">
+            <![CDATA[
+                require(['jira/shifter'], function(Shifter) { Shifter.show(); });
+            ]]>
+        </operation>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="create.issue" i18n-name-key="admin.keyboard.shortcut.create.issue.name" name="Create Issue" state='enabled'>
+        <order>60</order>
+        <description key="admin.keyboard.shortcut.create.issue.desc">Create an Issue</description>
+        <shortcut>c</shortcut>
+        <operation type="moveToAndClick">#header .create-issue</operation>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="help" i18n-name-key="admin.keyboard.shortcut.help.name" name="Shortcut help" state='enabled'>
+        <order>10000</order>
+        <description key="admin.keyboard.shortcut.help.desc">Open shortcut help</description>
+        <shortcut>?</shortcut>
+        <operation type="click">#keyshortscuthelp</operation>
+    </keyboard-shortcut>
+
+</atlassian-plugin>

@@ -1,0 +1,1 @@
+define("jira/backbone-1.3.3",["jquery","atlassian/libs/underscore-1.8.3","atlassian/libs/factories/backbone-1.3.3"],function(a,e,n){return n(e,a)});

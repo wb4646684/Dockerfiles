@@ -1,0 +1,14 @@
+<svg id="bull" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <style>
+    .st2{fill:#f0d0b4}.st3{fill:#253858}
+  </style>
+  <path d="M60 120C27 120 0 93 0 60S27 0 60 0s60 27 60 60-27 60-60 60z" fill="#344563"/>
+  <path d="M104.5 83.5l-11-44c-3-14.5-15.5-26-33.5-26S29.5 25 26.5 39.5l-11 44c-2 9 6 17 17.5 17h54.5c11 0 19-8.5 17-17z" fill="#ff5631"/>
+  <path class="st2" d="M60.5 97.5c-15.5 0-29-12.5-29-29V54c0-3 2.5-5.5 5.5-5.5h46c3 0 5.5 2.5 5.5 5.5v15c.5 16-12.5 28.5-28 28.5z"/>
+  <circle class="st3" cx="49" cy="61" r="3.5"/>
+  <circle class="st3" cx="71.5" cy="61" r="3.5"/>
+  <circle id="XMLID_11_" class="st2" cx="86.5" cy="62" r="6"/>
+  <circle id="XMLID_10_" class="st2" cx="33.5" cy="62" r="6"/>
+  <path class="st3" d="M60.5 87.5c3.5 0 6-3 7-6.5.5-1.5-.5-3-2-3H55c-1 0-2.5 1.5-2 3 1.5 4 4.5 6.5 7.5 6.5z"/>
+  <circle cx="60" cy="68" r="3" fill="#ffe4ce"/>
+</svg>

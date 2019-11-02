@@ -1,0 +1,40 @@
+<atlassian-plugin name='User Profile Panels' key='jira.user.profile.panels'
+                  i18n-name-key="webfragments.user.profile.panels.plugin.name" system='true'>
+    <plugin-info>
+        <description key="user.profile.panel.plugin.desc">This library includes the panels included on the user profile page.
+        </description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="4.1" max="4.1"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <view-profile-panel key="user-profile-summary-panel" i18n-name-key="user.profile.summary.panel"
+                        name="User Profile Summary Panel"
+                        class="com.atlassian.jira.user.profile.SummaryUserProfilePanel">
+        <resource name="view" type="soy" location=":summary-panel-template/Jira.userProfilePanel.summary"/>
+        <param name="noTitle">true</param>
+        <order>1</order>
+    </view-profile-panel>
+
+    <view-profile-panel key="up-darkfeatures-panel" i18n-name-key="admin.darkfeatures"
+                        name="User Profile Dark Features Panel"
+                        class="com.atlassian.jira.plugin.profile.DarkFeaturesUserProfilePanel">
+        <resource name="view" type="soy" location=":darkfeatures-panel-template/Jira.userProfilePanel.darkFeatures"/>
+        <order>100</order>
+    </view-profile-panel>
+
+    <web-resource key="darkfeatures-panel-template">
+        <transformation extension="soy">
+            <transformer key="soyTransformer"/>
+        </transformation>
+        <resource type="download" name="view" location="templates/plugins/userprofile/darkfeatures-panel.soy"/>
+    </web-resource>
+
+    <web-resource key="summary-panel-template">
+        <transformation extension="soy">
+            <transformer key="soyTransformer"/>
+        </transformation>
+        <resource type="download" name="view" location="templates/plugins/userprofile/summary-panel.soy"/>
+    </web-resource>
+
+</atlassian-plugin>

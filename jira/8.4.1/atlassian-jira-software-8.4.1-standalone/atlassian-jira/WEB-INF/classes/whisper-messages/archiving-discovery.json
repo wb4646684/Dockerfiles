@@ -1,0 +1,106 @@
+[
+  {
+    "id": "archiving-discovery",
+    "product": "jira",
+    "placement": {
+      "path": "/secure/project/BrowseProjects.jspa"
+    },
+    "condition": [
+      {
+        "messageKey": "archiving-discovery.clicked",
+        "expected": false
+      },
+      {
+        "messageKey": "archiving-discovery.dismissed",
+        "expected": false
+      },
+      {
+        "messageKey": "archiving-discovery-control.holdout",
+        "expected": false
+      }
+    ],
+    "triggers": [],
+    "triggerFlow": [{
+      "type": "selector",
+      "selector": ".aui-nav-selected #view_projects",
+      "nextSteps": [
+        {
+          "type": "observer",
+          "selector": "#projects th.project-list-actions",
+          "observer": {
+            "scope": "body"
+          },
+          "triggerIdx": 0,
+          "nextSteps": [
+            {
+              "type": "showMessage",
+              "triggerIdx": 1,
+              "nextSteps": [
+                {
+                  "type": "event",
+                  "selector": ".archive-project",
+                  "event": "click",
+                  "nextSteps": [
+                    {
+                      "type": "closeMessage",
+                      "triggerIdx": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }],
+    "component": {
+      "bindElement": "#projects th.project-list-actions",
+      "componentType": "inline-dialog",
+      "title": "{{feature-discovery.archiving.title}}",
+      "primaryText": "{{feature-discovery.archiving.got.it}}",
+      "primaryAction": {
+        "type": "dismiss",
+        "data": "blank"
+      },
+      "secondaryAction": {
+        "type": "link",
+        "data": {
+          "url": "[[project.archive]]",
+          "target": "new"
+        }
+      },
+      "width": "300px",
+      "secondaryText": "{{feature-discovery.archiving.learn.more}}",
+      "text": "{{feature-discovery.archiving.description}}",
+      "alignment": "left top"
+    }
+  },
+  {
+    "id": "archiving-discovery-control",
+    "product": "jira",
+    "placement": {
+      "path": "/secure/project/BrowseProjects.jspa"
+    },
+    "condition": [
+      {
+        "messageKey": "archiving-discovery-control.holdout",
+        "expected": false
+      }
+    ],
+    "triggers": [
+      {
+        "selector": ".archive-project",
+        "event": "click"
+      },
+      {
+        "selector": ".aui-nav-selected #view_archived_projects"
+      }
+    ],
+    "component": {
+      "componentType": "flag-message",
+      "text": "Flag"
+    },
+    "holdout": true,
+    "seamlessComponent": true
+  }
+]

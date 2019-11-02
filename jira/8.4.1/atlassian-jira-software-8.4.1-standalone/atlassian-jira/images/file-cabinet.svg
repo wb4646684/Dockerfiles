@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="160px" viewBox="0 0 240 160" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="3.88341767%" y1="104.566704%" x2="96.11656%" y2="-4.5666574%" id="linearGradient-1">
+            <stop stop-color="#0065FF" offset="20.57%"></stop>
+            <stop stop-color="#4C9AFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="File-Cabinet" transform="translate(54.000000, 18.000000)">
+            <rect id="_Rectangle_" fill="url(#linearGradient-1)" fill-rule="nonzero" transform="translate(66.500000, 57.000000) rotate(0.088600) translate(-66.500000, -57.000000) " x="1" y="1" width="131" height="112"></rect>
+            <path d="M15.1277226,53 C15.0186262,60.4422683 13.2658477,67.7703954 9.99275022,74.4686167 C7.68978119,79.1557211 4.66987207,83.4616325 1.04001517,87.2337966 L1,112.891149 L72,113 L15.1277226,53 Z" id="Shape" fill="#0057D8" fill-rule="nonzero"></path>
+            <rect id="Rectangle-path" fill="#253858" fill-rule="nonzero" transform="translate(67.000000, 38.500000) rotate(0.088600) translate(-67.000000, -38.500000) " x="15" y="14" width="104" height="49"></rect>
+            <path d="M106.050687,28.1045862 L63.1014306,28.038572 C54.6308583,28.0254739 57.0138036,21.0368091 48.6370766,21.0239075 L33.056853,21.0000036 C31.4253277,20.9975059 30.10067,22.3107254 30.0981259,23.9331825 L30.0915403,27.987817 L30,86.8786465 L108.913,87 L108.999996,31.0468683 C109.002508,29.4245133 107.682109,28.1072606 106.050687,28.1045862 Z" id="_Path_" fill="#505F79" fill-rule="nonzero"></path>
+            <path d="M107.751794,33.8581779 L60.453179,33.7851587 C51.1248685,33.7706858 53.7491197,26.0407375 44.5241453,26.0261991 L27.3661597,26.0000039 C26.5033263,25.9986655 25.6753001,26.3397208 25.0642379,26.9481412 C24.4531757,27.5565616 24.1091327,28.3825085 24.1077947,29.2442823 L24.1008445,33.72897 L24,98.865815 L110.904201,99 L110.999996,37.1124104 C111.002714,35.3179358 109.548475,33.8609968 107.751794,33.8581779 Z" id="_Path_2" fill="#3DC7DC" fill-rule="nonzero"></path>
+            <path d="M110.52771,39.3962681 L59.9672186,39.3180019 C49.99553,39.3026095 52.800784,31.0432463 42.9395703,31.0283105 L24.5983088,31.0000042 C22.6776485,30.9970482 21.1182366,32.5490322 21.1152441,34.4664779 L21.1077964,39.2583239 L21,108.856512 L113.897556,109 L113.999995,42.8738947 C114.001538,41.9530309 113.636562,41.069278 112.985369,40.4170831 C112.334175,39.7648882 111.450118,39.3976853 110.52771,39.3962681 Z" id="_Path_3" fill="#6BD5E5" fill-rule="nonzero"></path>
+            <path d="M112.341001,44.9346059 L59.0621591,44.8515737 C48.5543428,44.8352049 51.5104375,36.0462728 41.1190946,36.030102 L21.7919668,36.0000045 C20.8200361,35.9984804 19.8873136,36.386259 19.1989928,37.0780314 C18.5106719,37.7698039 18.1231378,38.7089022 18.1216457,39.6887304 L18.1138546,44.7877485 L18,118.8474 L115.892099,119 L115.999996,48.6347503 C116.001507,47.6549222 115.616854,46.7146208 114.930658,46.020707 C114.244461,45.3267932 113.312932,44.9361101 112.341001,44.9346059 Z" id="_Path_4" fill="#9CE3EE" fill-rule="nonzero"></path>
+            <rect id="Rectangle-path" fill="#3384FF" fill-rule="nonzero" transform="translate(67.000000, 97.000000) rotate(0.088600) translate(-67.000000, -97.000000) " x="15" y="53" width="104" height="88"></rect>
+            <rect id="Rectangle-path" fill="#FAFBFC" fill-rule="nonzero" transform="translate(71.000000, 124.000000) rotate(0.088600) translate(-71.000000, -124.000000) " x="56" y="121" width="30" height="6" rx="1.4019"></rect>
+            <circle id="Oval" fill="#FAFBFC" fill-rule="nonzero" transform="translate(49.000000, 124.000000) rotate(-89.911400) translate(-49.000000, -124.000000) " cx="49" cy="124" r="3"></circle>
+            <rect id="Rectangle-path" stroke="#0057D8" stroke-linejoin="round" transform="translate(66.500000, 91.500000) rotate(0.088600) translate(-66.500000, -91.500000) " x="47" y="76" width="39" height="31" rx="1"></rect>
+            <rect id="Rectangle-path" fill="#FAFBFC" fill-rule="nonzero" transform="translate(66.000000, 90.500000) rotate(90.088600) translate(-66.000000, -90.500000) " x="54" y="74" width="24" height="33" rx="1"></rect>
+        </g>
+    </g>
+</svg>

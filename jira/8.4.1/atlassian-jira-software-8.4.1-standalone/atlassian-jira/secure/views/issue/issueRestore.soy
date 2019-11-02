@@ -1,0 +1,80 @@
+{namespace JIRA.Templates.Restore.Issue}
+
+/**
+* Render the restore issue dialog
+ *
+ * @param key
+ * @param hasAnyErrors
+ * @param issuePath
+ * @param xsrfToken
+ * @param errorMessages
+ * @param targetUrl
+ * @param numberOfSubTasks
+*/
+{template .page}
+    {call aui.page.document}
+        {param windowTitle} {getText('restoreissue.title')}: {$key}{/param}
+        {param headContent}
+            {if $hasAnyErrors}
+                <meta name="decorator" content="issueaction"/>
+                <link rel="index" href="{$issuePath}"/>
+            {else}
+                <meta name="decorator" content="message"/>
+            {/if}
+        {/param}
+        {param content}
+            {call JIRA.Templates.Headers.pageHeader}
+                {param mainContent}
+                    <h2>{getText('restoreissue.title')}</h2>
+                {/param}
+            {/call}
+            <div id="restore-issue">
+                {call aui.form.form}
+                    {param id: 'restore-issue-form' /}
+                    {param action: 'RestoreIssue.jspa' /}
+                    {param class: 'aui' /}
+                    {param content}
+                        {if $hasAnyErrors}
+                            <div class="form-body">
+                                {call JIRA.Templates.GlobalMessages.globalMessages data="all"}
+                                    {param globalErrors: $errorMessages /}
+                                {/call}
+                            </div>
+                        {else}
+                            <div class="form-body">
+                                <p>{getText('restoreissue.info', '<b>' + $key + '</b>', $numberOfSubTasks)|noescape}</p>
+                                <input type="hidden" name="confirm" value="true"/>
+                                <input type="hidden" name="key" value="{$key}"/>
+                                <input type="hidden" name="atl_token" value="{$xsrfToken}"/>
+                                <input type="hidden" name="targetUrl" value="{$targetUrl}"/>
+                            </div>
+                            {call aui.form.buttons}
+                                {param extraClasses: 'form-footer' /}
+                                {param content}
+                                    {call aui.form.button}
+                                        {param id: 'restore-issue-submit' /}
+                                        {param type: 'primary' /}
+                                        {param name: 'restore' /}
+                                        {param text: getText('common.words.restore') /}
+                                        {param extraAttributes: [
+                                        'data-track-click': 'issue.restore.confirmation.restore.click'
+                                        ]  /}
+                                    {/call}
+                                    {call aui.form.linkButton}
+                                        {param id: 'restore-issue-cancel' /}
+                                        {param extraClasses: 'cancel' /}
+                                        {param href: contextPath() + $issuePath /}
+                                        {param text: getText('common.words.cancel') /}
+                                        {param extraAttributes: [
+                                        'data-track-click': 'issue.restore.confirmation.cancel.click'
+                                        ] /}
+                                    {/call}
+                                {/param}
+                            {/call}
+                        {/if}
+                    {/param}
+                {/call}
+            </div>
+        {/param}
+    {/call}
+{/template}

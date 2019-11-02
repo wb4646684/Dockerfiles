@@ -1,0 +1,49 @@
+{namespace Jira.userProfilePanel}
+
+/**
+* @param? filters
+* @param? pluggablePanelFragmentHtml (String)
+* @param? fragmentId
+* @param? fragmentHtml
+*/
+{template .summary}
+<header class="aui-page-header">
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-main">
+            <h2>{getText('user.profile.summary.panel')}</h2>
+        </div>
+        <div class="aui-page-header-actions">
+            <div id="quicklinks">
+                <div class="profile-operations aui-dd-parent">
+                    <button id="filters" class="aui-button aui-dropdown2-trigger" aria-owns="filters-dropdown" aria-haspopup="true">
+                        <span class="aui-icon aui-icon-small aui-iconfont-filter"></span>
+                        {getText('common.concepts.presetfilters')}
+                    </button>
+                    <div id="filters-dropdown" class="aui-dropdown2 aui-style-default">
+                        <ul class="aui-list-truncate">
+                            {foreach $link in $filters}
+                                <li class="aui-list-item">
+                                    <a class="aui-list-item-link" id="{$link.id}" title="{$link.title}" href="{$link.url}">{$link.label}</a>
+                                </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="aui-group">
+    <div class="aui-item">
+       {$pluggablePanelFragmentHtml|noAutoescape}
+    </div>
+    <div class="aui-item">
+    {if $fragmentId and $fragmentHtml}
+        <div id="{$fragmentId}" class="module">
+            {$fragmentHtml|noAutoescape}
+        </div>
+    {/if}
+    </div>
+</div>
+{/template}

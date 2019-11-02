@@ -1,0 +1,634 @@
+{namespace JIRA.Templates.Project.Browse}
+
+/**
+ * Browse projects page.
+ *
+ * @param operationLinks links registered for browse projects page
+ * @param infoPanelHtml web panel registered for browse project page
+ * @param adminMode the page is rendered under administration
+ * @param selectedCategory the project category that is selected at page load
+ */
+{template .page}
+    {let $pageTitle}
+        {if $adminMode}
+            {if $selectedCategory == 'archived'}
+                {getText('browse.projects.archived')}
+            {else}
+                {getText('alt.text.browseprojects')}
+            {/if}
+        {else}
+            {getText('browseprojects.title')}
+        {/if}
+    {/let}
+    {call aui.page.document}
+        {param extraClasses}
+            {if isFeatureFlagEnabled('jira.spectrum.m1')}
+                browse-projects
+            {/if}
+        {/param}
+        {param headContent}
+            {if $adminMode and $selectedCategory == 'all'}
+                <meta name="ajs-analytics-prefix" content="admin.all."/>
+            {/if}
+        {/param}
+        {param windowTitle}{$pageTitle}{/param}
+        {param content}
+            {call aui.page.pageHeader}
+                {param content}
+                    {call aui.page.pageHeaderMain}
+                        {param content}<h1>{$pageTitle}</h1>{/param}
+                    {/call}
+                    {if $operationLinks}
+                        {call aui.page.pageHeaderActions}
+                            {param content}
+                                {foreach $link in $operationLinks}
+                                    <a href="{$link.url}"
+                                       {sp}class="aui-button {$link.styleClass}"
+                                       {sp}id="{$link.id}"
+                                       {if $link.params and $link.params.trackClick}{sp}data-track-click="{$link.params.trackClick}"{/if}
+                                            {sp}title="{$link.title}"
+                                    >{$link.label}</a>
+                                {/foreach}
+                            {/param}
+                        {/call}
+                    {/if}
+                {/param}
+            {/call}
+            {call aui.page.pagePanel}
+                {param id: 'browse-projects-page' /}
+                {param content}
+                    {call aui.page.pagePanelNav}
+                        {param id: 'browse-projects-sidebar' /}
+                        {param content}
+                            <nav class="aui-navgroup aui-navgroup-vertical">
+                                <div class="aui-navgroup-inner">
+                                    <div class="project-type-nav"></div>
+                                    <div class="category-nav"></div>
+                                </div>
+                            </nav>
+                        {/param}
+                    {/call}
+                    {call aui.page.pagePanelContent}
+                        {param content}
+                            {$infoPanelHtml|noAutoescape}
+                            <div class="module">
+                                <div class="mod-header" id="filter-projects"></div>
+                                <div class="mod-content" id="projects"></div>
+                            </div>
+                            <div id="pagination"></div>
+                        {/param}
+                    {/call}
+                {/param}
+                {param extraAttributes: [
+                'data-track-pageview': 'projects.browse.view'
+                ] /}
+            {/call}
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * Sidebar list of project types used to filter results
+ *
+ * @param items list of project types to display
+ */
+{template .projectTypesTabs}
+    <ul class="aui-nav project-types-filters">
+        <div class="aui-nav-heading"><strong>{getText('browseprojects.project.types')}</strong></div>
+        {foreach $item in $items}
+            <li id="{$item.key}-project-type"
+                class="{if isFirst($item)}first{/if} {if $item.selected}aui-nav-selected{/if}">
+                <a rel="{$item.id}" href="{contextPath()}/secure/BrowseProjects.jspa?selectedProjectType={$item.key}">
+                    {if ($item.icon)}
+                        <img class="project-type-icon" src="data:image/svg+xml;base64, {$item.icon} "/>
+                    {/if}
+                    {$item.formattedKey}
+                </a>
+            </li>
+        {/foreach}
+    </ul>
+{/template}
+
+/**
+ * Sidebar list of categories used to filter results
+ *
+ * @param items list of categories to display
+ */
+{template .tabs}
+    <ul class="aui-nav">
+        <div class="aui-nav-heading"><strong>{getText('browseprojects.categories')}</strong></div>
+        {foreach $item in $items}
+            <li id="{$item.id}-panel-tab"
+                class="{if isFirst($item)}first{/if} {if $item.selected}aui-nav-selected{/if}">
+                <a id="{$item.id}-panel-tab-lnk" rel="{$item.id}" title="{$item.description}"
+                   href="{contextPath()}/secure/BrowseProjects.jspa?selectedCategory={$item.id}">
+                    {$item.name}
+                </a>
+            </li>
+        {/foreach}
+    </ul>
+{/template}
+
+/**
+ * Header and filter form
+ *
+ * @param contains value of text filter
+ * @param category chosen category
+ * @param projectType chosen project type
+ * @param isAdminMode is the page rendered inside administration or not (admin settings -> projects)
+ */
+{template .filter}
+     // we do not have filters in admin projects list at the moment... sorry admins
+    {if not $isAdminMode}
+        <h2>{if $projectType} {$projectType.formattedKey} - {/if}{$category.name}</h2>
+    {/if}
+
+    <form id="project-filter" class="aui ajs-dirty-warning-exempt">
+        <div class="project-filter-item">
+            <input type="text" id="project-filter-text" aria-label="{getText('browse.projects.filtertext.label')}"
+                   placeholder="{getText('browse.projects.filtertext.placeholder')}" class="version-filter-text text"
+                   value="{$contains}"/>
+            <span class="aui-icon aui-icon-small aui-iconfont-search-small"></span>
+        </div>
+    </form>
+{/template}
+
+/**
+ * Projects list.
+ */
+{template .projects}
+    <div class="p-list">
+        {call .table data="all"}{/call}
+    </div>
+{/template}
+
+
+/**
+ * Projects table
+ * @param isAdminMode user is in admin mode. (Project admins)
+ * @param category current category
+ * @param sortOrder
+ * @param sortColumn
+ */
+{template .table}
+    {call aui.table}
+        {param theadContent}
+            <tr>
+                <th class="project-list-name sortable {$sortColumn == 'name' ? 'active' : ''}" data-sort-key="name">{getText('common.concepts.project')}
+                    {if $sortColumn == 'name'}
+                        {call .renderSortIcon}
+                            {param sortOrder: $sortOrder /}
+                        {/call}
+                    {/if}
+                </th>
+                <th class="project-list-key sortable {$sortColumn == 'key' ? 'active' : ''}" data-sort-key="key">{getText('common.concepts.key')}
+                    {if $sortColumn == 'key'}
+                        {call .renderSortIcon}
+                            {param sortOrder: $sortOrder /}
+                        {/call}
+                    {/if}
+                </th>
+                <th class="project-list-type sortable {$sortColumn == 'projectTypeName' ? 'active' : ''}" data-sort-key="projectTypeName">{getText('browseprojects.project.type')}
+                    {if $sortColumn == 'projectTypeName'}
+                        {call .renderSortIcon}
+                            {param sortOrder: $sortOrder /}
+                        {/call}
+                    {/if}
+                </th>
+                <th class="project-list-lead sortable {$sortColumn == 'lead' ? 'active' : ''}" data-sort-key="lead">{getText('browseprojects.project.lead')}
+                    {if $sortColumn == 'lead'}
+                        {call .renderSortIcon}
+                            {param sortOrder: $sortOrder /}
+                        {/call}
+                    {/if}
+                </th>
+                <th class="project-list-category sortable {$sortColumn == 'projectCategoryId' ? 'active' : ''}"
+                    data-sort-key="projectCategoryId">{getText('browseprojects.project.category')}
+                    {if $sortColumn == 'projectCategoryId'}
+                        {call .renderSortIcon}
+                            {param sortOrder: $sortOrder /}
+                        {/call}
+                    {/if}
+                </th>
+                {if $category?.id == 'archived'}
+                    <th class="project-list-archived-date sortable {$sortColumn == 'archivedTimestamp' ? 'active' : ''}"
+                        data-sort-key="archivedTimestamp">{getText('browseprojects.archived.date')}
+                        {if $sortColumn == 'archivedTimestamp'}
+                            {call .renderSortIcon}
+                                {param sortOrder: $sortOrder /}
+                            {/call}
+                        {/if}
+                    </th>
+                    {if $isAdminMode}
+                        <th class="project-list-archived-by sortable {$sortColumn == 'archivedBy' ? 'active' : ''}"
+                            data-sort-key="archivedBy">{getText('browseprojects.archived.by')}
+                            {if $sortColumn == 'archivedBy'}
+                                {call .renderSortIcon}
+                                    {param sortOrder: $sortOrder /}
+                                {/call}
+                            {/if}
+                        </th>
+                    {/if}
+                {/if}
+                {if $category?.id != 'archived' and $isAdminMode}
+                    <th class="project-list-updated-date sortable {$sortColumn == 'lastUpdatedTimestamp' ? 'active' : ''}"
+                        data-sort-key="lastUpdatedTimestamp">{getText('browseprojects.updated.date')}
+                        {if $sortColumn == 'lastUpdatedTimestamp'}
+                            {call .renderSortIcon}
+                                {param sortOrder: $sortOrder /}
+                            {/call}
+                        {/if}
+                    </th>
+                    <th class="project-list-issue-count sortable {$sortColumn == 'issueCount' ? 'active' : ''}"
+                        data-sort-key="issueCount">{getText('browseprojects.issue.count')}
+                        {if $sortColumn == 'issueCount'}
+                            {call .renderSortIcon}
+                                {param sortOrder: $sortOrder /}
+                            {/call}
+                        {/if}
+                    </th>
+                {/if}
+                {if not $isAdminMode}
+                    <th class="project-list-url">{getText('common.concepts.url')}</th>
+                {/if}
+                {if $isAdminMode}
+                    <th class="project-list-actions">{getText('common.words.actions')}</th>
+                {/if}
+            </tr>
+        {/param}
+        {param contentIncludesTbody}true{/param}
+        {param content}
+            <tbody class="projects-list"></tbody>
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * Single project row.
+ *
+ * @param id project ID
+ * @param key project key
+ * @param hasDefaultAvatar does the project has default avatar
+ * @param name project name
+ * @param? lead name of the project lead
+ * @param? leadProfileLink prerendered link to project lead profile
+ * @param? archivedBy name of person who archived project
+ * @param? archivedByLink prerendred link to archived by profile
+ * @param? archivedDate date when project was archived
+ * @param? url project URL
+ * @param? projectCategoryId project category ID
+ * @param? projectCategoryName project category name
+ * @param? projectTypeIcon project type icon
+ * @param? projectTypeName project type name
+ * @param? archived project is archived or not
+ * @param? admin user is admin
+ * @param? projectAdmin user is project admin
+ * @param isAdminMode is the page rendered inside administration or not (admin settings -> projects)
+ * @param archivingEnabled is archiving feature enabled for this instance
+ * @param? issueCount count of the issues in the project
+ * @param? lastUpdatedDate last updated date of the project
+ */
+{template .projectRow}
+    {let $avatarSize: 'small' /}
+    {let $projectUrl: $isAdminMode ? '/plugins/servlet/project-config/' + $key + '/summary' : '/browse/' + $key /}
+    <tr data-project-id="{$id}">
+        <td data-cell-type="name" class="cell-type-name">
+            {if not $archived}<a title="{$name}" href="{contextPath() + $projectUrl}" atltoken="false"
+                                 data-track-click="projects.browse.project">{/if}
+            {call aui.avatar.avatar}
+                {param isProject}true{/param}
+                {param size}{$avatarSize}{/param}
+                {param avatarImageUrl}
+                    {if ($hasDefaultAvatar)}
+                        {contextPath()}/secure/projectavatar?size={$avatarSize}
+                    {else}
+                        {contextPath()}/secure/projectavatar?size={$avatarSize}&pid={$id}
+                    {/if}
+                {/param}
+                {param extraClasses}jira-system-avatar{/param}
+            {/call}
+
+            {$name}
+            {if not $archived}</a>{/if}
+        </td>
+        <td class="cell-type-key">
+            {$key}
+        </td>
+        {if $projectTypeIcon}
+            <td class="cell-type-project-type">
+                <img src="data:image/svg+xml;base64,{$projectTypeIcon}" class="project-type-icon"
+                     title="{$projectTypeName}"/>
+            </td>
+        {/if}
+        <td class="cell-type-user">
+            {if $lead}
+                {$leadProfileLink|noAutoescape}
+            {else}
+                {getText('browse.projects.no.lead')}
+            {/if}
+        </td>
+        <td class="cell-type-category">
+            {if $projectCategoryId}
+                <a class="category"
+                   data-category-id="{$projectCategoryId}"
+                   href="{contextPath()}/secure/BrowseProjects.jspa?selectedCategory={$projectCategoryId}"
+                   data-track-click="projects.browse.category">
+                    {$projectCategoryName}
+                </a>
+            {else}
+                {getText('browse.projects.none')}
+            {/if}
+        </td>
+        {if $archived}
+            <td class="cell-type-archived-date">
+                {$archivedDate ?: '--'}
+            </td>
+            {if $isAdminMode}
+                <td class="cell-type-archived-by">
+                    {if $archivedBy}
+                        {$archivedByLink|noAutoescape}
+                    {else}
+                        {getText('browse.projects.no.archived.by')}
+                    {/if}
+                </td>
+            {/if}
+        {/if}
+        {if (not $archived) and $isAdminMode}
+            <td class="cell-type-updated-date">{$lastUpdatedDate ?: '--'}</td>
+            <td class="cell-type-issue-count">{$issueCount ?: '--'}</td>
+        {/if}
+        {if not $isAdminMode}
+            <td class="cell-type-url">
+                {if $url}
+                    <a title="{$url}" href="{$url}">{$url}</a>
+                {else}
+                    {getText('browse.projects.no.url')}
+                {/if}
+            </td>
+        {/if}
+        {if $isAdminMode and ($admin or $projectAdmin)}
+            {if not $archived}
+                {call .projectActions data="all"}{/call}
+            {else}
+                {call .archivedProjectActions data="all"}{/call}
+            {/if}
+        {/if}
+    </tr>
+{/template}
+
+/**
+ * Actions for a project
+ * @param id project ID
+ * @param? archived project is archived or not
+ * @param? admin user is admin
+ * @param archivingEnabled is archiving feature enabled for this instance
+ */
+{template .projectActions private="true"}
+    <td class="cell-type-actions">
+        <div class="aui-buttons">
+            {if $admin} // this will be specific to delete after archiving for PLA implementation
+                {call aui.buttons.button}
+                {param text: '' /}
+                {param iconType: 'aui' /}
+                {param iconClass: 'aui-icon-small aui-iconfont-more' /}
+                {param iconText: 'More' /}
+                {param type: 'subtle' /}
+                {param id: 'dropdown2-trigger-' + $id /}
+                {param dropdown2Target: 'dropdown2-more-' + $id /}
+                {param extraClasses: 'aui-dropdown2-trigger-arrowless' /}
+                {param extraAttributes: [
+                'data-track-click': 'projects.browse.meatballs'
+                ] /}
+            {/call}
+                <div id="dropdown2-more-{$id}" class="aui-dropdown2 aui-style-default">
+                    <ul class="aui-list-truncate">
+                        {if not $archived}
+                            <li>
+                                <a class="trigger-dialog stacked-dialog edit-project" id="edit-project-{$id}"
+                                   href="EditProject!default.jspa?pid={$id}&returnUrl=/secure/project/BrowseProjects.jspa?s=view_projects"
+                                   atltoken="false"
+                                   data-track-click="projects.browse.meatballs.editproject">
+                                    {getText('common.words.edit')}
+                                </a>
+                            </li>
+                        {/if}
+                        {if not $archived and $archivingEnabled}
+                            <li>
+                                <a class="archive-project" id="archive_project_{$id}"
+                                   href="ArchiveProject!default.jspa?pid={$id}"
+                                   atltoken="false"
+                                   data-track-click="projects.browse.meatballs.archiveproject">
+                                    {getText('common.words.archive')}
+                                </a>
+                            </li>
+                        {/if}
+                        <li>
+                            <a class="delete-project" id="delete_project_{$id}"
+                               href="DeleteProject!default.jspa?pid={$id}&returnUrl=BrowseProjects.jspa?{if $archived}selectedCategory=archived&s=view_archived_projects{else}s=view_projects{/if}"
+                               atltoken="false"
+                               data-track-click="projects.browse.meatballs.deleteproject">
+                                {getText('common.words.delete')}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            {elseif not $archived}
+                {call aui.buttons.button}
+                    {param text: getText('common.words.edit') /}
+                    {param type: 'link' /}
+                    {param href: contextPath() + '/secure/project/EditProject!default.jspa?pid=' + $id + '&returnUrl=/secure/project/BrowseProjects.jspa?s=view_projects' /}
+                    {param id: 'edit-project-' + $id /}
+                    {param extraClasses: 'trigger-dialog stacked-dialog edit-project' /}
+                {/call}
+            {/if}
+        </div>
+    </td>
+{/template}
+
+/**
+ * Actions for an archived project
+ * @param id project ID
+ * @param? admin user is admin
+ * @param archivingEnabled is archiving feature enabled for this instance
+ */
+{template .archivedProjectActions private="true"}
+    <td class="cell-type-actions">
+        {if $admin} // this will be specific to delete after archiving for PLA implementation
+            {call aui.buttons.button}
+            {param text: '' /}
+            {param iconType: 'aui' /}
+            {param iconClass: 'aui-icon-small aui-iconfont-more' /}
+            {param iconText: 'More' /}
+            {param type: 'subtle' /}
+            {param id: 'dropdown2-trigger-' + $id /}
+            {param dropdown2Target: 'dropdown2-more-' + $id /}
+            {param extraClasses: 'aui-dropdown2-trigger-arrowless' /}
+        {/call}
+            <div id="dropdown2-more-{$id}" class="aui-dropdown2 aui-style-default">
+                <ul class="aui-list-truncate">
+                    {if $archivingEnabled}
+                        <li>
+                            <a class="restore-project" id="restore_project_{$id}" href="#">
+                                {getText('common.words.restore')}
+                            </a>
+                        </li>
+                    {/if}
+                    <li>
+                        <a class="delete-project" id="delete_project_{$id}"
+                           href="{contextPath()}/secure/project/DeleteProject!default.jspa?pid={$id}&returnUrl=/secure/project/BrowseProjects.jspa?s=view_projects"
+                           atltoken="false">
+                            {getText('common.words.delete')}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        {/if}
+    </td>
+{/template}
+
+
+/**
+ * No projects row, with some explanation text and a call to action
+ * @param isAdmin if the logged in user is admin
+ * @param headerText
+ * @param descriptionText
+ * @param callToActionText
+ * @param projectType
+ * @param? imageClassName
+ */
+{template .emptyRowWithCallToAction}
+    <tr class="projects-list-row-empty">
+        <td colspan="6">
+            <div class="no-project-results-cta">
+                {if $imageClassName}
+                    <div class="{$imageClassName}"></div>
+                {/if}
+                <h6>{$headerText}</h6>
+                <p>{$descriptionText}</p>
+                {if $isAdmin}
+                    <p>
+                        <button class="aui-button aui-button-primary add-project-trigger empty-state-add-project-button"
+                                data-project-type="{$projectType}">{$callToActionText}</button>
+                    </p>
+                {/if}
+            </div>
+        </td>
+    </tr>
+{/template}
+
+/**
+ * Error page
+ *
+ * @param errorMessages
+ */
+{template .error}
+    {if isFeatureFlagEnabled('jira.spectrum.m1')}
+        {call aui.page.document}
+            {param windowTitle}{getText('common.words.error')}{/param}
+            {param extraClasses: 'browse-project-error-page' /}
+            {param content}
+                <div class="no-projects-container">
+                    <div>
+                        {switch $errorMessages[0]}
+                            {case getText('noprojects')}
+                                <img alt="{getText('noprojects')}"
+                                     src="{contextPath()}/images/no-projects.png">
+                            {case getText('noprojects.notloggedin')}
+                                <img alt="{getText('noprojects.notloggedin')}"
+                                     src="{contextPath()}/images/not-logged.png">
+                            {case getText('noprojects.nopermissions')}
+                                <img alt="{getText('noprojects.nopermissions')}"
+                                     src="{contextPath()}/images/no-permission.png">
+                            {case getText('noprojects.mustsetupfirst')}
+                                <img alt="{getText('noprojects.mustsetupfirst')}"
+                                     src="{contextPath()}/images/not-setup.png">
+                        {/switch}
+                    </div>
+                    <h2>{$errorMessages[0]}</h2>
+                    {for $i in range(1, length($errorMessages))}
+                        <p>{$errorMessages[$i] |noAutoescape}</p>
+                    {/for}
+                </div>
+            {/param}
+        {/call}
+    {else}
+        {call aui.page.document}
+            {param windowTitle}{getText('common.words.error')}{/param}
+            {param headContent}
+                <meta name="decorator" content="message"/>{/param}
+            {param content}
+                <div class="form-body">
+                    <header>
+                        <h1>{getText('common.words.error')}</h1>
+                    </header>
+                    {call aui.message.error}
+                        {param content}
+                            {foreach $error in $errorMessages}
+                                <p>{$error|noAutoescape}</p>
+                            {/foreach}
+                        {/param}
+                    {/call}
+                </div>
+            {/param}
+        {/call}
+    {/if}
+{/template}
+
+/**
+ * Empty screen displayed for archived projects list in browse projects app
+ *
+ * @param adminMode
+ */
+{template .archivedProjectsEmptyState private="true"}
+    <tr class="projects-list-row-empty">
+        <td colspan="6">
+            <div class="archived-projects-empty-state">
+                {if not $adminMode}<h2>{getText('browse.projects.archived')}</h2>{/if}
+                <div class="no-projects-container">
+                    <div>
+                        <img alt="{getText('noprojects')}" src="{contextPath()}/images/file-cabinet.svg">
+                    </div>
+                    {if $adminMode}
+                        <h2>{getText('browseproject.no.archived.projects.admin.title')}</h2>
+                        <p>{getText('browseproject.no.archived.projects.admin.description')}</p>
+                        <p>{call aui.form.button}
+                            {param type: 'primary' /}
+                            {param href: 'BrowseProjects.jspa' /}
+                            {param text: getText('browseproject.no.archived.projects.admin.action') /}
+                        {/call}
+                        </p>
+                    {else}
+                        <h2>{getText('browseproject.no.archived.projects.user.title')}</h2>
+                        <p>{getText('browseproject.no.archived.projects.user.description')}</p>
+                    {/if}
+                </div>
+            </div>
+        </td>
+    </tr>
+{/template}
+
+/**
+ * Project restore successful flag content
+ *
+ * @param projectKey
+ */
+{template .restoreSuccessFlag}
+    <p>{getText('browse.projects.restore.success')}</p>
+    {call aui.buttons.button}
+        {param text: getText('browse.projects.restore.success.link') /}
+        {param type: 'link' /}
+        {param href: contextPath() + '/secure/admin/IndexProject.jspa?key=' + $projectKey /}
+    {/call}
+{/template}
+
+/**
+ * Sort order icon.
+ * @param sortOrder order of sorting
+ */
+{template .renderSortIcon}
+    {call aui.icons.icon}
+        {param useIconFont: true /}
+        {param size: 'small' /}
+        {param icon: $sortOrder == 'ascending' ? 'new-arrow-up' : 'new-arrow-down' /}
+    {/call}
+{/template}

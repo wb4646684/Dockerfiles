@@ -1,0 +1,17 @@
+<svg id="bull" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <style>
+  </style>
+  <path id="Fill-1" d="M60 120C27 120 0 93 0 60S27 0 60 0s60 27 60 60-27 60-60 60" mask="url(#mask-2_13_)" fill-rule="evenodd" clip-rule="evenodd" fill="#ff991f"/>
+  <path id="Fill-4" d="M82.2 102.4c-.6.7-1.6.7-2.2.1-3.2-3.7-5-8.5-5-13.4V64h12v25.3c0 4.8-1.7 9.5-4.8 13.1" mask="url(#mask-2_12_)" fill-rule="evenodd" clip-rule="evenodd" fill="#bf2600"/>
+  <path id="Fill-6" d="M88 51c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6" mask="url(#mask-2_11_)" fill-rule="evenodd" clip-rule="evenodd" fill="#e2b49b"/>
+  <path id="Fill-8" d="M62 93c-15.5 0-29-12.5-29-29V49.5c0-3 2.5-5.5 5.5-5.5h46c3 0 5.5 2.5 5.5 5.5v15c.5 16-12.5 28.5-28 28.5" mask="url(#mask-2_10_)" fill-rule="evenodd" clip-rule="evenodd" fill="#edc5ae"/>
+  <path id="Fill-10" d="M73 60c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3" mask="url(#mask-2_9_)" fill-rule="evenodd" clip-rule="evenodd" fill="#42526e"/>
+  <path id="Fill-12" d="M60.5 85c4.5 0 7.8-2.8 9.4-6.8.4-1.6-.4-3.2-2.5-3.2H53.6c-2 0-2.9 1.6-2.5 3.2 1.6 4 4.9 6.8 9.4 6.8" mask="url(#mask-2_8_)" fill-rule="evenodd" clip-rule="evenodd" fill="#344563"/>
+  <path id="Fill-14" d="M62.1 79.2c-2.9.5-4.5 2.7-5.7 4.9 1.2.6 2.6 1 4.2 1 3.3 0 6-1.6 7.8-4.2-1.6-1.3-3.9-2.2-6.3-1.7" mask="url(#mask-2_7_)" fill-rule="evenodd" clip-rule="evenodd" fill="#de350b"/>
+  <path id="Fill-16" d="M30.1 92.8l-.1 17.1c9.4 1 13-6.7 13-13.7l-.2-5.2-12.7 1.8z" mask="url(#mask-2_6_)" fill-rule="evenodd" clip-rule="evenodd" fill="#401f03"/>
+  <path id="Fill-18" d="M48.2 72.2L46.4 66l-16.3 2.8L30 97c5-.2 9.6-2.2 13.1-5.4.3-.3.6-.5.8-.8 4.7-4.9 6.2-12.1 4.3-18.6" mask="url(#mask-2_5_)" fill-rule="evenodd" clip-rule="evenodd" fill="#592b04"/>
+  <path id="Fill-20" d="M66 48.6v-1.2c0-1.5-.1-3-.3-4.4L30 44.2l.1 40.2c13.6-.5 10.6-11.8 22.4-16.8 9.4-4 13.3-10.1 13.5-19" mask="url(#mask-2_4_)" fill-rule="evenodd" clip-rule="evenodd" fill="#6b3305"/>
+  <path id="Fill-22" d="M57.3 17c-15.7.8-28 13-28.3 28l42-25.6c-4.2-1.7-8.9-2.6-13.7-2.4" mask="url(#mask-2_3_)" fill-rule="evenodd" clip-rule="evenodd" fill="#de350b"/>
+  <path id="Fill-24" d="M71.4 19L29 44.9V47l57-15.5c-3.4-5.6-8.5-10-14.6-12.5" mask="url(#mask-2_2_)" fill-rule="evenodd" clip-rule="evenodd" fill="#cc310a"/>
+  <path id="Fill-26" d="M86.8 31L29 46.9c0 .6 0 1.4.1 2 0 4.4 61.8 4.5 61.8-2.6 0-5.6-1.5-10.8-4.1-15.3" mask="url(#mask-2_1_)" fill-rule="evenodd" clip-rule="evenodd" fill="#bf2600"/>
+</svg>

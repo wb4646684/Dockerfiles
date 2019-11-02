@@ -1,0 +1,96 @@
+{namespace JIRA.Templates.Archive.Project}
+
+/**
+* Render the archive project page
+*
+* @param key
+* @param pid
+* @param? xsrfToken
+* @param? project
+* @param? documentationUrl
+* @param? errorMessages
+* @param? destinationURL
+*/
+{template .page}
+    {call aui.page.document}
+        {param windowTitle}{getText('admin.archiveproject.archive.project')}{if $project}: {$project.name}{/if}{/param}
+        {param headContent}
+            <meta name="decorator" content="admin">
+            <meta name="projectKey" content='{$key}'/>
+            <meta name="admin.active.section" content="admin_project_menu/project_section"/>
+            <meta name="admin.active.tab" content="view_projects"/>
+        {/param}
+        {param content}
+            {call JIRA.Templates.Headers.pageHeader}
+                {param mainContent}
+                    <h2>{getText('admin.archiveproject.archive.project')}</h2>
+                {/param}
+            {/call}
+            <div id="archive-confirmation-page">
+                {call aui.form.form}
+                    {param action: 'ArchiveProject.jspa' /}
+                    {param class: 'aui' /}
+                    {param content}
+                        {if $errorMessages and length($errorMessages) > 0}
+                            <div class="form-body">
+                                <div data-track-pageview="projects.browse.archiveProject.view.error">
+                                    {call JIRA.Templates.GlobalMessages.globalMessages data="all"}
+                                        {param globalErrors: $errorMessages /}
+                                    {/call}
+                                </div>
+                            </div>
+                        {else}
+                            <div class="form-body" data-track-pageview="projects.browse.archiveProject.view">
+                                <p data-track-pageview="projects.browse.archiveProject.view">{getText('admin.archiveproject.warning')}</p>
+                                <ul>
+                                    <li>{getText('admin.archiveproject.info1')}</li>
+                                    <li>{getText('admin.archiveproject.info2')}</li>
+                                    <li>{getText('admin.archiveproject.info3')}</li>
+                                </ul>
+                                {call aui.form.button}
+                                    {param type: 'link' /}
+                                    {param href: $documentationUrl?.url /}
+                                    {param text: getText('admin.archiveproject.learn.more') /}
+                                    {param extraAttributes: [
+                                            'target': 'blank',
+                                            'data-track-click': 'projects.browse.archiveProject.learn.more'
+                                            ]  /}
+                                {/call}
+                                <input type="hidden" name="confirm" value="true"/>
+                                <input type="hidden" name="confirmed" value="true"/>
+                                <input type="hidden" name="pid" value="{$pid}"/>
+                                <input type="hidden" name="key" value="{$key}"/>
+                                <input type="hidden" name="atl_token" value="{$xsrfToken}"/>
+                            </div>
+
+                            {call aui.form.buttons}
+                                {param extraClasses: 'form-footer' /}
+                                {param content}
+                                    {call aui.form.button}
+                                        {param id: 'confirm-project-archive-button' /}
+                                        {param type: 'primary' /}
+                                        {param name: 'archive' /}
+                                        {param text: getText('common.words.archive') /}
+                                        {param extraAttributes: [
+                                                'data-track-click': 'projects.browse.archiveProject.confirm'
+                                                ] /}
+                                    {/call}
+                                    {call aui.form.button}
+                                        {param id: 'confirm-project-cancel-button' /}
+                                        {param extraClasses: 'cancel' /}
+                                        {param href: $destinationURL /}
+                                        {param text: getText('common.words.cancel') /}
+                                        {param type: 'link' /}
+                                        {param extraAttributes: [
+                                                'data-track-click': 'projects.browse.archiveProject.cancel'
+                                                ] /}
+                                    {/call}
+                                {/param}
+                            {/call}
+                        {/if}
+                    {/param}
+                {/call}
+            </div>
+        {/param}
+    {/call}
+{/template}

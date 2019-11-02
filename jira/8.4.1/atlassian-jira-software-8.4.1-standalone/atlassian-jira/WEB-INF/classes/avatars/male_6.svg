@@ -1,0 +1,18 @@
+<svg id="bull" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <style>
+    .st1{fill:#ffe2d9}.st2{fill:#42526e}.st3{fill:#dea97c}
+  </style>
+  <g id="color_x5F_bg_3_">
+    <path id="XMLID_22_" d="M60 120C27 120 0 93 0 60S27 0 60 0s60 27 60 60-27 60-60 60z" fill="#6554c0"/>
+  </g>
+  <circle id="XMLID_21_" class="st1" cx="27.5" cy="56" r="8.5"/>
+  <circle id="XMLID_20_" class="st1" cx="92.5" cy="56" r="8.5"/>
+  <path id="XMLID_19_" class="st1" d="M60 100.5c-18.5 0-33-15-33-33v-13c0-18.5 15-33 33-33 18.5 0 33 15 33 33v13c0 18-14.5 33-33 33z"/>
+  <circle id="XMLID_18_" class="st2" cx="48" cy="58.5" r="3.5"/>
+  <circle id="XMLID_17_" class="st2" cx="72" cy="58.5" r="3.5"/>
+  <path id="XMLID_16_" class="st3" d="M68 103.5H52c-5 0-8.5-4-8.5-8.5V83c0-5 4-8.5 8.5-8.5h16c5 0 8.5 4 8.5 8.5v12c0 5-4 8.5-8.5 8.5z"/>
+  <path id="XMLID_15_" class="st2" d="M60 91.5c4 0 7-2.5 8.5-5.5.5-1.5-1-3-2-3h-12c-1.5 0-2.5 1.5-2 3 .5 3 3.5 5.5 7.5 5.5z"/>
+  <circle id="XMLID_14_" class="st1" cx="60" cy="71" r="6.5"/>
+  <path id="XMLID_13_" class="st3" d="M77.5 50.5L71 49c-2-.5-3-2.5-2.5-4 .5-2 2-3 4-2.5L79 44c2 .5 3 2.5 2.5 4 0 2-2 3-4 2.5z"/>
+  <path id="XMLID_12_" class="st3" d="M42.5 50.5L49 49c2-.5 3-2.5 2.5-4-.5-2-2-3-4-2.5L41 44c-2 .5-3 2-3 4 .5 2 2.5 3 4.5 2.5z"/>
+</svg>

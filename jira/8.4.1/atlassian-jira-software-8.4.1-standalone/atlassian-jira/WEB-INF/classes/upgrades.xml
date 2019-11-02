@@ -1,0 +1,109 @@
+<!--
+This file holds details of all the upgrades for JIRA
+
+There is no longer a concept of editions since JIRA 4.x and hence all upgrade tasks
+should be placed in this file.
+
+The makeup of this XML file is described here :
+
+<upgrades> The root node of the file. Everything should be contained within this node
+    <upgrade> Each upgrade element describes an upgrade task.
+        Attributes
+        1. build -  This defines the build that the upgrade applies to
+
+        <class> The class element defines the name of the class which performs the upgrade
+-->
+
+<upgrades>
+    <upgrade build="70101">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build70101</class>
+    </upgrade>
+
+    <upgrade build="70102">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build70102</class>
+    </upgrade>
+
+    <!-- JIRA 7.1 -->
+    <upgrade build="71001">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build71001</class>
+    </upgrade>
+    <upgrade build="72001">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build72001</class>
+    </upgrade>
+    <upgrade build="72002">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build72002</class>
+    </upgrade>
+    <upgrade build="73002">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build73002</class>
+    </upgrade>
+    <upgrade build="73010">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build73010</class>
+    </upgrade>
+    <upgrade build="73011">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build73011</class>
+    </upgrade>
+    <upgrade build="74002">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build74002</class>
+    </upgrade>
+    <upgrade build="75002">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build75002</class>
+    </upgrade>
+    <upgrade build="75003">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build75003</class>
+    </upgrade>
+    <upgrade build="75004">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build75004</class>
+    </upgrade>
+    <upgrade build="75005">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build75005</class>
+    </upgrade>
+    <upgrade build="76001">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build76001</class>
+    </upgrade>
+    <upgrade build="77001">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build77001</class>
+    </upgrade>
+    <upgrade build="710001">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build710001</class>
+    </upgrade>
+    <upgrade build="711001">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build711001</class>
+    </upgrade>
+    <upgrade build="712001">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build712001</class>
+    </upgrade>
+    <upgrade build="800000">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build800000</class>
+    </upgrade>
+    <upgrade build="800003">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build800003</class>
+    </upgrade>
+    <upgrade build="800004">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build800004</class>
+    </upgrade>
+    <upgrade build="800005">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build800005</class>
+    </upgrade>
+    <upgrade build="800006">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build800006</class>
+    </upgrade>
+    <upgrade build="800007">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build800007</class>
+    </upgrade>
+    <upgrade build="800009">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build800009</class>
+    </upgrade>
+    <upgrade build="801000">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build801000</class>
+    </upgrade>
+    <upgrade build="804000">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build804000</class>
+    </upgrade>
+    <!--
+         This is a place holder upgrade task that is left at the bottom of the files
+         to indicate to the next developer what the next good upgrade task should be
+    <upgrade build="804001">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build804001</class>
+    </upgrade>
+    -->
+</upgrades>

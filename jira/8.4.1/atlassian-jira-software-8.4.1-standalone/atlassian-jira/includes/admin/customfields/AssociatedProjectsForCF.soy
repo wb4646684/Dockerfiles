@@ -1,0 +1,72 @@
+{namespace JIRA.Templates.Admin.Customfields}
+
+/**
+ * Associated projects dialog content. Very similar to prioritySchemesForPriorityPage.soy in jira
+ * @param customField the customField being optimized
+ * @param associatedProjects
+ * @param errorMessages
+ */
+{template .associatedProjects}
+    {call aui.page.document}
+        {param windowTitle: getText('optimizer.plugin.recommendation.usedby.projects.title') /}
+        {param content}
+            <div class="jira-dialog-heading">
+                <h2>{getText('admin.issuefields.customfields.used.by.projects.title')}</h2>
+            </div>
+            {let $displayErrors: $errorMessages and length($errorMessages) != 0 /}
+            <div class="custom-field-used-by-projects form-body">
+                {if $displayErrors}
+                    {call aui.message.error}
+                        {param content}
+                            {if length($errorMessages) == 1}
+                                {$errorMessages[0]}
+                            {else}
+                                <ul>
+                                    {foreach $message in $errorMessages}
+                                        <li>{$message}</li>
+                                    {/foreach}
+                                </ul>
+                            {/if}
+                        {/param}
+                    {/call}
+                {else}
+                    <p>{getText('admin.issuefields.customfields.used.by.projects', '<b>' + $customField?.name + '</b>', length($associatedProjects))|noescape}</p>
+                    <table class="aui">
+                        <thead>
+                        <tr>
+                            <th>{getText('admin.project.import.select.project.proj.name')}</th>
+                        </tr>
+                        </thead>
+                        {foreach $project in $associatedProjects}
+                            <tr>
+                                <!-- Taken from Browse.soy .projectRow template in jira. Could be future component-->
+                                <td>
+                                    {let $avatarSize: 'small' /}
+                                    {let $projectUrl: '/plugins/servlet/project-config/' + $project?.key + '/summary' /}
+                                    {if not $project?.archived}<a title="{$project?.name}"
+                                                                  href="{contextPath() + $projectUrl}"
+                                                                  atltoken="false">{/if}
+                                    {call aui.avatar.avatar}
+                                        {param isProject}true{/param}
+                                        {param size}{$avatarSize}{/param}
+                                        {param avatarImageUrl}
+                                            {if ($project?.hasDefaultAvatar)}
+                                                {contextPath()}/secure/projectavatar?size={$avatarSize}
+                                            {else}
+                                                {contextPath()}/secure/projectavatar?size={$avatarSize}
+                                                &pid={$project?.id}
+                                            {/if}
+                                        {/param}
+                                        {param extraClasses}jira-system-avatar{/param}
+                                    {/call}
+                                    <span data-project-id="{$project?.id}"> {$project?.name} {if $project?.archived}({getText('admin.common.words.archived')}){/if}</span>
+                                    {if not $project?.archived}</a> {/if}
+                                </td>
+                            </tr>
+                        {/foreach}
+                    </table>
+                {/if}
+            </div>
+        {/param}
+    {/call}
+{/template}

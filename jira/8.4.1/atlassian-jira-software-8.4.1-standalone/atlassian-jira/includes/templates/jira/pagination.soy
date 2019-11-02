@@ -1,0 +1,39 @@
+{namespace JIRA.Templates.Common}
+
+/**
+ * Pagination
+ *
+ * @param currentPage
+ * @param firstPage
+ * @param lastPage
+ * @param totalPages
+ * @param url
+ * @param cssClass
+ */
+{template .pagination}
+    <ol data-total="{$totalPages}" class="aui-nav aui-nav-pagination{if $cssClass} {$cssClass}{/if}">
+        {if $firstPage < $lastPage}
+            <li class="aui-nav-previous">
+                <a href="{$url}&amp;page={if $currentPage == $firstPage}0{else}{$currentPage - 1}{/if}"
+                        {if $currentPage == $firstPage}aria-disabled="true"
+                   {else}data-page="{if $currentPage == $firstPage}0{else}{$currentPage - 1}{/if}"{/if}>
+                    {getText('common.words.previous')}
+                </a>
+            </li>
+            {for $page in range($firstPage, $lastPage + 1)}
+                {if $page == $currentPage}
+                    <li class="aui-nav-page aui-nav-selected">{$page}</li>
+                {else}
+                    <li><a href="{$url}&amp;page={$page}" data-page="{$page}">{$page}</a></li>
+                {/if}
+            {/for}
+            <li class="aui-nav-next">
+                <a href="{$url}&amp;page={if $currentPage == $lastPage}{$lastPage}{else}{$currentPage + 1}{/if}"
+                        {if $currentPage == $lastPage}aria-disabled="true"
+                   {else}data-page="{if $currentPage == $lastPage}{$lastPage}{else}{$currentPage + 1}{/if}"{/if}>
+                    {getText('common.words.next')}
+                </a>
+            </li>
+        {/if}
+    </ol>
+{/template}

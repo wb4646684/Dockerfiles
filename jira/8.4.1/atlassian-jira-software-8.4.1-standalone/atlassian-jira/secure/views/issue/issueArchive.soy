@@ -1,0 +1,104 @@
+{namespace JIRA.Templates.Archive.Issue}
+
+/**
+* Render the archive issue dialog
+ *
+ * @param key
+ * @param hasAnyErrors
+ * @param issuePath
+ * @param xsrfToken
+ * @param errorMessages
+ * @param targetUrl
+ * @param documentationUrl
+ * @param numberOfSubTasks
+ * @param projectType
+*/
+{template .page}
+    {call aui.page.document}
+        {param windowTitle} {getText('archiveissue.title')}: {$key}{/param}
+        {param headContent}
+            {if $hasAnyErrors}
+                <meta name="decorator" content="issueaction"/>
+                <link rel="index" href="{$issuePath}"/>
+            {else}
+                <meta name="decorator" content="message"/>
+            {/if}
+        {/param}
+        {param content}
+            {call JIRA.Templates.Headers.pageHeader}
+                {param mainContent}
+                    <h2>{getText('archiveissue.title')}</h2>
+                {/param}
+            {/call}
+            <div id="archive-issue">
+                {call aui.form.form}
+                    {param action: 'ArchiveIssue.jspa' /}
+                    {param class: 'aui' /}
+                    {param content}
+                        {if $hasAnyErrors}
+                            <div class="form-body">
+                                {call JIRA.Templates.GlobalMessages.globalMessages data="all"}
+                                    {param globalErrors: $errorMessages /}
+                                {/call}
+                            </div>
+                        {else}
+                            <div class="form-body">
+                                <p>
+                                    {switch $projectType.key}
+                                        {case 'software'}
+                                            {getText('archiveissue.warning.software', '<b>' + $key + '</b>', $numberOfSubTasks)|noescape}
+                                        {case 'service_desk'}
+                                            {getText('archiveissue.warning.servicedesk', '<b>' + $key + '</b>', $numberOfSubTasks)|noescape}
+                                        {default}
+                                            {getText('archiveissue.warning.core', '<b>' + $key + '</b>', $numberOfSubTasks)|noescape}
+                                    {/switch}
+                                </p>
+                                <ul>
+                                    <li>{getText('archiveissue.desc.line1')}</li>
+                                    <li>{getText('archiveissue.desc.line2')}</li>
+                                    <li>{getText('archiveissue.desc.line3')}</li>
+                                </ul>
+                                {call aui.form.button}
+                                    {param type: 'link' /}
+                                    {param href: $documentationUrl?.url /}
+                                    {param text: getText('helptip.learn.more') /}
+                                    {param extraAttributes: [
+                                    'target': 'blank',
+                                    'data-track-click': 'issue.archive.confirmation.learn.more.click'
+                                    ] /}
+                                {/call}
+                                <input type="hidden" name="confirm" value="true"/>
+                                <input type="hidden" name="key" value="{$key}"/>
+                                <input type="hidden" name="atl_token" value="{$xsrfToken}"/>
+                                <input type="hidden" name="targetUrl" value="{$targetUrl}"/>
+                            </div>
+                            {call aui.form.buttons}
+                                {param extraClasses: 'form-footer' /}
+                                {param content}
+                                    {call aui.form.button}
+                                        {param id: 'archive-issue-submit' /}
+                                        {param type: 'primary' /}
+                                        {param name: 'archive' /}
+                                        {param text: getText('common.words.archive') /}
+                                        {param extraAttributes: [
+                                        'data-track-click': 'issue.archive.confirmation.archive.click'
+                                        ]  /}
+                                    {/call}
+                                    {call aui.form.linkButton}
+                                        {param id: 'archive-issue-cancel' /}
+                                        {param extraClasses: 'cancel' /}
+                                        {param href: contextPath() + $issuePath /}
+                                        {param text: getText('common.words.cancel') /}
+                                        {param extraAttributes: [
+                                        'data-track-click': 'issue.archive.confirmation.cancel.click'
+                                        ]  /}
+                                    {/call}
+                                {/param}
+                            {/call}
+                        {/if}
+                    {/param}
+                {/call}
+            </div>
+        {/param}
+    {/call}
+{/template}

@@ -1,0 +1,23 @@
+{namespace JIRA.Templates.Common}
+
+/**
+ * Render rempty search results page
+ * @param colspan how many columns are present in the table
+ * @param? renderParentRow whether to render the row or not. For example backbone/marionette view's generate parent element by themselves
+ * @param name name of the entity being searched. eg:  project, custom field, issue etc
+ * @param? extraClasses additional classes to be added to each message
+ */
+{template .emptySearchTableRow}
+    {if $renderParentRow}
+        <tr class="search-result-empty-row">
+    {/if}
+        <td {if $colspan}colspan="{$colspan}"{/if}>
+            <div class="jira-adbox jira-adbox-medium {$extraClasses}">
+                <h2>{getText('common.search.no.results', $name)}</h2>
+                <p class="no-results-hint">{getText('common.search.no.results.hint')}</p>
+            </div>
+        </td>
+    {if $renderParentRow}
+        </tr>
+    {/if}
+{/template}

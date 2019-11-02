@@ -1,0 +1,1 @@
+define("jira/customfields/customfieldsPaginationView",["jira/pagination/paginationview"],function(i){"use strict";return i.extend({onRender:function(){}})});

@@ -1,0 +1,196 @@
+@import 'plugin://com.atlassian.jira.plugins.jira-ui/less/jira-colors';
+
+#customfields-container {
+  padding-top: 20px;
+  min-height: 100px;
+  position: relative;
+  &.active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background-color: #fff;
+    opacity: 0.5;
+  }
+  #custom-fields-table {
+    table-layout: fixed;
+    width: 100%;
+    white-space: nowrap;
+    td,
+    div.secondary-text,
+    .buttons {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    /* Column widths are based on these cells */
+    th.customfield-name {
+      width: 45%;
+    }
+    th.customfield-type {
+      width: 15%;
+    }
+    th.customfield-contexts {
+      width: 15%;
+    }
+    th.customfield-screens {
+      width: 15%;
+    }
+    th.customfield-actions {
+      width: 10%;
+    }
+    span.aui-lozenge {
+      margin-left: 10px;
+    }
+    + #pagination-container {
+      margin-top: 10px;
+      clear: both; // clear the floated pagination so that loading indicator can block it
+      &::after {
+        content: '';
+        display: block;
+        visibility: hidden;
+        clear: both;
+      }
+    }
+  }
+}
+
+form.aui .customfield-filter-item {
+  display: inline-block;
+  position: relative;
+
+  .text {
+    // leave enough room for the icon to prevent the user from typing over the icon
+    // using the same spacing as aui form notifications: https://docs.atlassian.com/aui/latest/docs/form-notification.html
+    width: 255px;
+    padding-left: 32px;
+  }
+
+  .aui-icon {
+    margin-top: -8px;
+    position: absolute;
+    left: 6px;
+    top: 50%;
+  }
+}
+
+.customfield-filter-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  .customfield-filter-items {
+    flex: 1 0 100px;
+    overflow: hidden;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    margin: 0 10px;
+
+    .customfield-filter-item {
+      margin: 0 5px;
+      max-width: 31%;
+    }
+
+    .customfield-filter-dropdown-trigger {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.customfield-filter-dropdown-item {
+  display: flex;
+  padding: 6px 10px 6px 34px;
+
+  &:hover {
+    background-color: @aui-color-B50;
+  }
+
+  .customfield-filter-item-checkbox {
+    position: absolute;
+    left: 10px;
+  }
+
+  .customfield-filter-image {
+    flex: 0 0;
+    margin-right: 4px;
+  }
+  .customfield-filter-image-placeholder {
+    width: 16px;
+    margin-right: 4px;
+  }
+  .customfield-filter-text {
+    flex: 1 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.customfield-filter-text-search {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+  padding: 5px 10px 0;
+  overflow: hidden;
+
+  .icon-default {
+    position: absolute;
+    top: 11px;
+    right: 15px;
+    z-index: 2;
+  }
+}
+
+.customfield-filter-clear {
+  padding: 5px 10px;
+}
+
+.customfield-filter-text-search-input {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 28px;
+  height: 0;
+  border: 1px solid #c1c7d0;
+  padding: 0 24px 0 6px;
+  -webkit-box-shadow: #bbbbbb 0 7px 2px -7px inset;
+  -moz-box-shadow: #bbbbbb 0 7px 2px -7px inset;
+  box-shadow: #bbbbbb 0 7px 2px -7px inset;
+  margin: 0;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+#types-filter-dropdown,
+#projects-filter-dropdown,
+#screens-filter-dropdown {
+  min-height: 50px;
+
+  .customfield-filter-scroll {
+    max-height: 400px;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .no-suggestions {
+    padding: 7px 11px 6px;
+    background: rgb(242, 242, 242);
+    display: block;
+    font-style: italic;
+    margin: 0;
+  }
+}

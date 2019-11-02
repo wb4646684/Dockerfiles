@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.1 (57501) - http://www.bohemiancoding.com/sketch -->
+    <title>Jira_logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="98.0308675%" y1="0.160599572%" x2="58.8877062%" y2="40.7655246%" id="linearGradient-1">
+            <stop stop-color="#0052CC" offset="18%"></stop>
+            <stop stop-color="#2684FF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100.665247%" y1="0.45503212%" x2="55.4018095%" y2="44.7269807%" id="linearGradient-2">
+            <stop stop-color="#0052CC" offset="18%"></stop>
+            <stop stop-color="#2684FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Jira_logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Jira-blue" fill-rule="nonzero">
+            <path d="M38.2277778,0 L19.0166667,0 C19.0166667,2.30001634 19.9303446,4.50582999 21.5567017,6.13218714 C23.1830589,7.75854429 25.3888726,8.67222222 27.6888889,8.67222222 L31.2277778,8.67222222 L31.2277778,12.0888889 C31.2308423,16.8740868 35.1092465,20.7524911 39.8944444,20.7555556 L39.8944444,1.66666667 C39.8944444,0.746192084 39.1482524,5.63628126e-17 38.2277778,0 Z" id="Shape" fill="#2684FF"></path>
+            <path d="M28.7222222,9.57222222 L9.51111111,9.57222222 C9.5141756,14.3574201 13.3925799,18.2358244 18.1777778,18.2388889 L21.7166667,18.2388889 L21.7166667,21.6666667 C21.7227976,26.451863 25.6036886,30.3277817 30.3888889,30.3277778 L30.3888889,11.2388889 C30.3888889,10.3184143 29.6426968,9.57222222 28.7222222,9.57222222 Z" id="Shape" fill="url(#linearGradient-1)"></path>
+            <path d="M19.2111111,19.1388889 L0,19.1388889 C5.86549003e-16,23.928425 3.88268614,27.8111111 8.67222222,27.8111111 L12.2222222,27.8111111 L12.2222222,31.2277778 C12.2252761,36.0086438 16.0969196,39.8852573 20.8777778,39.8944444 L20.8777778,20.8055556 C20.8777778,19.885081 20.1315857,19.1388889 19.2111111,19.1388889 Z" id="Shape" fill="url(#linearGradient-2)"></path>
+        </g>
+    </g>
+</svg>

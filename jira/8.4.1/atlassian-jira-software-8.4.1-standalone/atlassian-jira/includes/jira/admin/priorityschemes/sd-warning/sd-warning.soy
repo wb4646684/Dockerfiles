@@ -1,0 +1,58 @@
+{namespace JIRA.Templates.Admin.PrioritySchemes.SDProjectsWarning}
+
+/**
+ * Warning message for filtered SD projects on assign priority schemes page
+ * @param displaySDWarning
+ */
+{template .filteredSDProjectsWarning}
+    {if $displaySDWarning}
+        {if isFeatureFlagEnabled('jira.priorities.per.project.jsd') }
+            {call .servicedeskConfigurationWarning /}
+        {else}
+            {call .warning}
+                {param content: getText('admin.issuesettings.priorities.associate.sd.filtered')/}
+            {/call}
+        {/if}
+    {/if}
+{/template}
+
+/**
+ * Warning message for SD projects on assign priority schemes page
+ */
+{template .servicedeskConfigurationWarning}
+{call aui.message.warning}
+    {param closeable: 'false' /}
+    {param content}
+            <p>{getText('admin.schemes.priority.add.priority.scheme.sd.warning')}</p>
+    {/param}
+{/call}
+{/template}
+
+/**
+ * Displays error message that SD projects are not supported in priority schemes
+ */
+{template .anySDProjectsWarning}
+    {let $tagBeginning}
+        {call JIRA.Templates.Links.helpLink}
+            {param onlyOpeningTag: true /}
+            {param title: getJiraHelpTitle('priority_schemes') /}
+            {param isLocal: false /}
+            {param url: getJiraHelpUrl('priority_schemes') /}
+        {/call}
+    {/let}
+    {let $tagEnding: '</a>'/}
+    {call .warning}
+        {param content: getText('admin.issuesettings.priorities.sd.not.supported', $tagBeginning, $tagEnding)/}
+    {/call}
+{/template}
+
+/**
+ * Displays warning message with content
+ * @param content
+ */
+{template .warning private="true"}
+    <p class="sd-projects-warning">
+        <span class="aui-icon aui-icon-small aui-iconfont-warning sd-projects-warning-icon"></span>
+        {$content|noAutoescape}
+    </p>
+{/template}

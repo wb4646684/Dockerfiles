@@ -1,0 +1,43 @@
+#disable_html_escaping()
+#if($legacyBehaviour)
+    ## we only show the field in legacy mode if work has not started (i.e. we are showing Original Estimate) or if
+    ## the WorklogSystemField is not present
+    #if($!{hasWorkStarted} == false || $isWorklogPresent == false)
+        #customControlHeader ($action $field.id $i18n.getText($fieldName) $fieldLayoutItem.required $displayParameters $auiparams)
+        <input class="text short-field" id="$field.id" name="$field.id" type="text" value="#if ($timetracking.estimateDisplayValue)$textutils.htmlEncode($timetracking.estimateDisplayValue)#end" />
+        <span class="aui-form example">${i18n.getText('logwork.example', '3w 4d 12h')}</span>
+        #jiraHelpLink ('timetracking_local' '')
+        #customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)
+    #end
+#else
+    <td>
+        <table id="timetracking_container" class="blank">
+            <tr>
+                <td>
+                    <input class="checkbox" type="checkbox" id="${field.id}_originalestimate_subfield" name="${field.id}_targetsubfield" value="${field.id}_originalestimate">
+                    <label for="${field.id}_originalestimate_subfield">$textutils.htmlEncode($i18n.getText('bulkedit.actions.changefield', $i18n.getText('common.concepts.original.estimate')))</label>
+                </td>
+                #customControlHeader  ($action "${field.id}_originalestimate" $i18n.getText('common.concepts.original.estimate') $fieldLayoutItem.required $displayParameters $auiparams)
+                <input class="text short-field" id="${field.id}_originalestimate" name="${field.id}_originalestimate" type="text" value="" />
+                <span class="aui-form example">${i18n.getText('logwork.example', '3w 4d 12h')}</span>
+                #jiraHelpLink ('timetracking_local' '')
+                #customControlFooter ($action "${field.id}_originalestimate" $i18n.getText('timetracking.field.original.estimate.description') $displayParameters $auiparams)
+            </tr>
+            <tr>
+                <td>
+                    <input class="checkbox" type="checkbox" id="${field.id}_remainingestimate_subfield" name="${field.id}_targetsubfield" value="${field.id}_remainingestimate">
+                    <label for="${field.id}_remainingestimate_subfield">$textutils.htmlEncode($i18n.getText('bulkedit.actions.changefield', $i18n.getText('common.concepts.remaining.estimate')))</label>
+                </td>
+                #customControlHeader  ($action "${field.id}_remainingestimate" $i18n.getText('common.concepts.remaining.estimate') $fieldLayoutItem.required $displayParameters $auiparams)
+                <input class="text short-field" id="${field.id}_remainingestimate" name="${field.id}_remainingestimate" type="text" value="" />
+                <span class="aui-form example">${i18n.getText('logwork.example', '3w 4d 12h')}</span>
+                #jiraHelpLink ('timetracking_local' '')
+                #customControlFooter ($action "${field.id}_remainingestimate" $i18n.getText('timetracking.field.remaining.estimate.description') $displayParameters $auiparams)
+            </tr>
+        </table>
+    </td>
+#end
+<div class="hidden">
+    <input name="isCreateIssue" type="hidden" value="$!{isCreateIssue}" />
+    <input name="hasWorkStarted" type="hidden" value="$!{hasWorkStarted}" />
+</div>

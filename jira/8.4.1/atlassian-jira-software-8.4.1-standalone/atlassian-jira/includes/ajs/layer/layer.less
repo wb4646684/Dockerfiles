@@ -1,0 +1,26 @@
+@import 'plugin://com.atlassian.jira.plugins.jira-ui/less/jira-colors';
+@import "../../../ui/imports/mixins/shadow";
+@import "../dropdown/dropdown-variables.less";
+
+.ajs-layer {
+    background-color: @jira-dropdown-background-color;
+    border-radius: 3px;
+    margin-top: 3px;
+    min-width: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 12000;
+
+    &.box-shadow {
+        box-shadow: 0 4px 8px -2px @aui-color-N50A, 0 0 1px @aui-color-N60A;
+    }
+
+    &.limited {
+        max-height: @jira-dropdown-max-height;
+    }
+}
+
+.ajs-layer-placeholder {
+    display: none;
+    position: relative;
+}

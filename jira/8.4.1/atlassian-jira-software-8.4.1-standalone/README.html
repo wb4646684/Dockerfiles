@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Atlassian Jira 8.4.1-#804002 - README</title>
+    <style type="text/css">
+        body, p, td, table, tr, .bodytext {
+            font-family: Verdana, arial, sans-serif;
+            font-size: 11px;
+            line-height: 16px;
+            color: #000000;
+        }
+
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: #f0f0f0;
+        }
+
+        A:link, A:visited, A:active, A:hover {
+            color: #003366;
+        }
+
+        h1 {
+            font-size: 24px;
+            line-height: normal;
+            font-weight: bold;
+            border-bottom: #3c78b5;
+            border-width: 0 0 1px 0;
+            border-style: solid;
+        }
+
+        h2 {
+            font-size: 14px;
+            line-height: normal;
+            font-weight: bold;
+            padding: 5px 0 0 0;
+        }
+
+        #Content {
+            text-align: left;
+            background-color: #fff;
+            border-style: solid;
+            border-color: #003366;
+            border-width: 10px 0px 1px 0px;
+            padding: 0px 10px 10px 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="Content">
+    <h1>Jira 8.4.1 README</h1>
+
+    <p>Thank you for downloading Jira 8.4.1.
+        This distribution comes with a built-in Tomcat 8.5.42 application
+        server, so it runs (almost) out of the box.</p>
+
+
+    <h2>Brief install guide</h2>
+
+    <p>Full documentation:
+        <a href="http://docs.atlassian.com/jira/jadm-docs-084/Installing+Jira+applications">Installing Jira applications</a></p>
+
+    <ol>
+        <li>
+            Install Oracle's Java Development Kit (JDK) or Java Runtime Environment (JRE) 8, or AdoptOpenJDK 8.<br/>
+            <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a><br/>
+            <a href="https://adoptopenjdk.net/">https://adoptopenjdk.net/</a>
+        </li>
+
+        <li>
+            Set the <tt>JAVA_HOME</tt> variable to where you installed Java.<br/>
+            See the following instructions for details: <a href="http://docs.atlassian.com/jira/jadm-docs-084/Installing+Java">Installing Java</a>.
+        </li>
+
+        <li>Set your Jira home directory.<br/>
+            See the following instructions for details: <a href="http://docs.atlassian.com/jira/jadm-docs-084/Setting+your+Jira+application+home+directory">Setting your Jira home directory</a>.
+        </li>
+
+	    <li>Start Jira by running one of the following files:
+            <ul>
+                <li>(Windows) '<tt>bin\start-jira.bat</tt>'</li>
+                <li>(Linux) '<tt>bin\start-jira.sh</tt>'</li>
+            </ul>
+        </li>
+
+        <li>Go to <a href="http://localhost:8080/">http://localhost:8080</a>. You should see Jira's setup wizard.</li>
+    </ol>
+
+    <h2>Brief upgrade guide</h2>
+
+    <p>You can reconnect your existing database and Jira home directory to this instance, and start using Jira in a new version.</p>
+
+    <p>Full documentation:
+        <a href="http://docs.atlassian.com/jira/jadm-docs-084/Upgrading+Jira+applications">Upgrading Jira applications</a></p>
+
+    <ol>
+        <li>Stop your existing Jira instance.</li>
+
+        <li>Set your Jira home directory.<br/>
+            See the following instructions for details: <a href="http://docs.atlassian.com/jira/jadm-docs-084/Setting+your+Jira+application+home+directory">Setting your Jira home directory</a>.</li>
+
+        <li>
+            If you're using an Oracle or MySQL database, download the database driver
+            and place it in <tt>&lt;this-directory&gt;/lib</tt>.
+            <br/>
+            <a href="http://docs.atlassian.com/jira/jadm-docs-084/Supported+platforms">Supported drivers</a>
+        </li>
+
+        <li>
+            Re-apply any modifications you've made to Jira files in your previous
+            version. These may include JVM arguments, connection settings, memory
+            allocation, and so on.
+        </li>
+
+        <li>
+            Disable automatic reindex by adding the following flag
+            to the <tt>jira-config.properties</tt> file. Remember that you'll need to later
+            manually reindex Jira by going to <b>Administration > System > Indexing</b>.<br/>
+            File: <tt>&lt;jira-home-directory&gt;/jira-config.properties</tt><br/>
+            Flag: <tt>upgrade.reindex.allowed=false</tt>
+        </li>
+
+        <li>Start Jira by running one of the following files:
+            <ul>
+                <li>(Windows) '<tt>bin\start-jira.bat</tt>'</li>
+                <li>(Linux) '<tt>bin\start-jira.sh</tt>'</li>
+            </ul>
+        </li>
+
+        <li>Go to <a href="http://localhost:8080/">http://localhost:8080</a>.</li>
+    </ol>
+
+    <h2>Problems?</h2>
+
+    <p>A common startup problem is when another program has claimed port 8080,
+        which Jira is configured to run on by default. To avoid this port
+        conflict, Jira's port can be changed in <tt>conf/server.xml</tt>.</p>
+
+    <p>If you encounter any problems, please create a support request at: <a
+                href="https://support.atlassian.com">https://support.atlassian.com</a>.
+
+    <h2>Questions?</h2>
+
+    <p>Questions? Try the
+        <a href="http://docs.atlassian.com/jira/jadm-docs-084/">online documentation</a>, or ask at
+        <a href="http://answers.atlassian.com/tags/jira">Atlassian Answers for Jira</a>.
+    </p>
+
+    <br>
+
+    <div class="sig">Happy issue tracking and thank you for using Jira!<br/>
+        - The Atlassian Team</div>
+</body>
+</html>

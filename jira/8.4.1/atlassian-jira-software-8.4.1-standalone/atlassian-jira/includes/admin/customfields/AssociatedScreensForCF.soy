@@ -1,0 +1,54 @@
+{namespace JIRA.Templates.Admin.Customfields}
+
+/**
+ * Associated screens dialog content. Very similar to prioritySchemesForPriorityPage.soy in jira
+ * @param customField the customField being optimized
+ * @param associatedScreens
+ * @param errorMessages
+ */
+{template .associatedScreens}
+    {call aui.page.document}
+        {param windowTitle: getText('admin.issuefields.customfields.used.by.screens.title') /}
+        {param content}
+            <div class="jira-dialog-heading">
+                <h2>{getText('admin.issuefields.customfields.used.by.screens.title')}</h2>
+            </div>
+            {let $displayErrors: $errorMessages and length($errorMessages) != 0 /}
+            <div class="custom-fields-used-by-screens form-body">
+                {if $displayErrors}
+                    {call aui.message.error}
+                        {param content}
+                            {if length($errorMessages) == 1}
+                                {$errorMessages[0]}
+                            {else}
+                                <ul>
+                                    {foreach $message in $errorMessages}
+                                        <li>{$message}</li>
+                                    {/foreach}
+                                </ul>
+                            {/if}
+                        {/param}
+                    {/call}
+                {else}
+                    <p>{getText('admin.issuefields.customfields.used.by.screens', '<b>' + $customField?.name + '</b>', length($associatedScreens))|noescape}</p>
+                    <table class="aui">
+                        <thead>
+                        <tr>
+                            <th>{getText('admin.common.words.screen')}</th>
+                        </tr>
+                        </thead>
+                        {foreach $screenTab in $associatedScreens}
+                            <tr>
+                                <!-- Taken from Browse.soy .projectRow template in jira. Could be future component-->
+                                <td>
+                                    <a href="ConfigureFieldScreen.jspa?id={$screenTab?.fieldScreen?.id}&tabPosition={$screenTab?.position}"
+                                       atltoken="false">{$screenTab?.fieldScreen?.name}</a>
+                                </td>
+                            </tr>
+                        {/foreach}
+                    </table>
+                {/if}
+            </div>
+        {/param}
+    {/call}
+{/template}

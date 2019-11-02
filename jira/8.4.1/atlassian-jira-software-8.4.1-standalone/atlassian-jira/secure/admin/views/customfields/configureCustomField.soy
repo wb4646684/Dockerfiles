@@ -1,0 +1,85 @@
+{namespace JIRA.Templates.Admin.ConfigureCustomField}
+
+/**
+* Renders confirmation page for custom field context deletion
+*
+* @param fieldId
+* @param customFieldId
+* @param? documentationUrl
+* @param? xsrfToken
+* @param? errorMessages
+* @param? destinationURL
+*/
+{template .confirmCustomFieldContextDeletion}
+    {call aui.page.document}
+        {param windowTitle}{getText('admin.issuefields.customfields.configure.context.delete.title')}{/param}
+        {param headContent}
+            <meta name="decorator" content="admin">
+            <meta name="admin.active.section" content="admin_issues_menu/element_options_section/fields_section"/>
+            <meta name="admin.active.tab" content="view_custom_fields"/>
+        {/param}
+        {param content}
+            {call JIRA.Templates.Headers.pageHeader}
+                {param mainContent}
+                    <h2>{getText('admin.issuefields.customfields.configure.context.delete.title')}</h2>
+                {/param}
+            {/call}
+            <div id="delete-cf-context-confirmation-page">
+                {call aui.form.form}
+                    {param action: 'ManageConfigurationScheme!remove.jspa' /}
+                    {param class: 'aui' /}
+                    {param content}
+                        {if $errorMessages and length($errorMessages) > 0}
+                            <div class="form-body">
+                                {call JIRA.Templates.GlobalMessages.globalMessages data="all"}
+                                    {param globalErrors: $errorMessages /}
+                                {/call}
+                            </div>
+                        {else}
+                            <div class="form-body">
+                                <p>
+                                    <span>{getText('admin.issuefields.customfields.configure.context.delete.confirmation')} </span>
+                                    {call aui.form.button}
+                                        {param type: 'link' /}
+                                        {param href: $documentationUrl?.url /}
+                                        {param text: getText('admin.archiveproject.learn.more') /}
+                                        {param extraAttributes: 'target = blank' /}
+                                    {/call}
+                                </p>
+                                <input type="hidden" name="customFieldId" value="{$customFieldId}"/>
+                                <input type="hidden" name="fieldConfigSchemeId" value="{$fieldId}"/>
+                                <input type="hidden" name="atl_token" value="{$xsrfToken}"/>
+                            </div>
+
+                            {call aui.form.buttons}
+                                {param extraClasses: 'form-footer' /}
+                                {param content}
+                                    {call aui.form.button}
+                                        {param id: 'confirm-cf-context-delete-button' /}
+                                        {param type: 'primary' /}
+                                        {param name: 'delete-context' /}
+                                        {param text: getText('common.words.delete') /}
+                                    {/call}
+                                    {call aui.form.button}
+                                        {param id: 'cf-context-deletion-cancel-button' /}
+                                        {param type: 'link' /}
+                                        {param extraClasses: 'cancel' /}
+                                        {param href: $destinationURL /}
+                                        {param text: getText('common.words.cancel') /}
+                                    {/call}
+                                {/param}
+                            {/call}
+                        {/if}
+                    {/param}
+                {/call}
+            </div>
+        {/param}
+    {/call}
+{/template}
+
+
+
+
+
+
+

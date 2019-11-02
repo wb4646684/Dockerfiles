@@ -1,0 +1,1 @@
+define("jira/util/init-on-dcl",[],function(){"use strict";return AJS.toInit});

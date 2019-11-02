@@ -1,0 +1,56 @@
+#* @vtlvariable name="metadataHelper" type="com.atlassian.jira.issue.changehistory.metadata.renderer.HistoryMetadataRenderHelper" *#
+#* @vtlvariable name="changehistory" type="com.atlassian.jira.issue.tabpanels.ChangeHistoryAction" *#
+
+#macro (historyMetadataParticipant $participant $withAvatar)
+    #set($participantId = $metadataHelper.getParticipantName($participant))
+    #if($participantId)
+        #if ($withAvatar) #historyMetadataParticipantAvatar($participant) #end
+        #if ($participant.url) <a href="$textutils.htmlEncode($participant.url)">$textutils.htmlEncode($participantId)</a> #else $textutils.htmlEncode($participantId) #end
+    #end
+#end
+
+#macro (historyMetadataParticipantAvatar $participant)
+    #if ($participant.avatarUrl)
+        <span class="aui-avatar aui-avatar-xsmall">
+            <span class="aui-avatar-inner">
+                <img alt="" src="$!textutils.htmlEncode($metadataHelper.getParticipantAvatarUrl($participant))"/>
+            </span>
+        </span>
+    #end
+#end
+
+#macro (createAuthorLink $withAvatar)
+    #if($withAvatar)
+        #set ($authorLink = $userformat.formatUserkey(${changehistory.author}, 'profileLinkActionHeader', "changehistoryauthor_$!{changehistory.id}"))
+    #else
+        #set ($authorLink = $userformat.formatUserkey(${changehistory.author}, 'profileLink', "changehistoryauthor_$!{changehistory.id}"))
+    #end
+#end
+
+#macro(renderChangeHistoryDetails)
+    #set ($timestamp = " - <span class='date' title='$changehistory.createdDateHtml'><time class='livestamp' datetime='$changehistory.createdDateIso8601Html'>$changehistory.createdDateHtml</time></span>")
+    #set($generatorHasNoAvatar = "$!changehistory.historyMetadata.generator.avatarUrl" == "")
+
+    #if($i18n.isKeyDefined($changehistory.historyMetadata.descriptionKey))
+        #set($generator = "#historyMetadataParticipant($changehistory.historyMetadata.generator, false)")
+        #if ("$!changehistory.author" != "" || "$!changehistory.historyMetadata.actor" == "")
+            #createAuthorLink($generatorHasNoAvatar)
+            #set($actor = $authorLink)
+        #elseif ($changehistory.historyMetadata.actor)
+            #set($actor = "#historyMetadataParticipant($changehistory.historyMetadata.actor, $generatorHasNoAvatar)")
+        #end
+        #set($cause = "#historyMetadataParticipant($changehistory.historyMetadata.cause, true)")
+        #set($metadataDescription = $i18n.getText($changehistory.historyMetadata.descriptionKey, $actor.trim(), $generator.trim(), $cause.trim()))
+    #elseif($changehistory.historyMetadata.description)
+        #createAuthorLink($generatorHasNoAvatar)
+        #set($metadataDescription = $i18n.getText('viewissue.changehistory.changeby', $authorLink, $textutils.htmlEncode($changehistory.historyMetadata.description)))
+    #end
+
+    #if($metadataDescription)
+        #historyMetadataParticipantAvatar($changehistory.historyMetadata.generator)
+        $metadataDescription $timestamp
+    #else
+        #createAuthorLink(true)
+        $i18n.getText('viewissue.changehistory.changeby', $authorLink, $timestamp)
+    #end
+#end
