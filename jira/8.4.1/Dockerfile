@@ -1,6 +1,6 @@
 FROM ccr.ccs.tencentyun.com/wb4646684/centos:7.6.1810
 
-# 设置JIRA_HOME环境变量，否则正常启动
+# 设置JIRA_HOME环境变量，否则无法正常启动
 ENV JIRA_HOME /data/jira
 
 ADD ./atlassian-jira-software-8.4.1-standalone /usr/local/jira
